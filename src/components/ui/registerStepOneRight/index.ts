@@ -1,0 +1,1 @@
+export { RegisterStepRight } from "./RegisterStepRight";

@@ -1,0 +1,37 @@
+.wraps,
+.wrapsDateGende {
+  display: flex;
+  width: 100%;
+}
+
+.wraps {
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.field {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+.selected {
+  padding: 12px 20px;
+  border: 1px solid #69735d;
+  border-radius: 12px;
+  font: 400 16px/150% var(--font-Roboto-Regular);
+  letter-spacing: 0.02em;
+  color: #69735d;
+  outline: none;
+  width: 100%;
+  appearance: none;
+}
+.field span {
+  position: absolute;
+  top: 43%;
+  right: 2%;
+}
+.label {
+  font: 400 16px/150% var(--font-Roboto-Regular);
+  letter-spacing: 0.02em;
+  color: #253017;
+}

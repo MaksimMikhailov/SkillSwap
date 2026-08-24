@@ -1,0 +1,77 @@
+.card {
+  max-width: 324px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+.wrapSkills {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cardProfile {
+  padding: 32px;
+  max-width: 324px;
+  width: 100%;
+  height: 100%;
+  min-height: 444px;
+}
+.learnskills,
+.teachskills {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.titles {
+  font-family: var(--font-Roboto-Medium);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.02em;
+  color: #253017;
+}
+.skills {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+.skill {
+  font-family: var(--font-Roboto-Medium);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 133%;
+  letter-spacing: 0.02em;
+  color: #253017;
+  border-radius: 20px;
+  padding: 8px 12px;
+}
+
+.button {
+  display: block;
+  text-align: center;
+  font-family: var(--font-Roboto-Regular);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.02em;
+  color: #253017;
+  border-radius: 12px;
+  padding: 12px 24px;
+  background: #abd27a;
+  width: 100%;
+  margin-top: 20px;
+}
+.description {
+  font-family: var(--font-Roboto-Regular);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.02em;
+  color: #253017;
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
