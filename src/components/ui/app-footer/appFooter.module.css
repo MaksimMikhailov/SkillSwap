@@ -1,0 +1,31 @@
+footer {
+  padding: 40px 36px 30px;
+}
+
+.wrapFooter {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 24px;
+}
+
+.wrapFooter ul li {
+  max-width: 324px;
+  padding-top: 20px;
+  font: 400 16px/150% var(--font-Roboto-Regular);
+  letter-spacing: 0.02em;
+  color: #253017;
+  text-decoration: none;
+  list-style: none;
+}
+
+.listDecoration li {
+  list-style-type: disc !important;
+}
+
+.name {
+  padding-top: 32px;
+  font: 400 12px/133% var(--font-Roboto-Regular);
+  letter-spacing: 0.02em;
+  color: #69735d;
+}

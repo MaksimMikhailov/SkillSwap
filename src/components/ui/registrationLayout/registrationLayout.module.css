@@ -1,0 +1,47 @@
+.global {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.h1 {
+  font: 500 24px/117% var(--font-Jost-Medium);
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #253017;
+}
+
+.lines {
+  width: 60px;
+  height: 4px;
+  background: #e4e8df;
+}
+
+.wrapsLine {
+  display: flex;
+  gap: 16px;
+  margin: 0 auto;
+}
+
+.green {
+  background: #abd27a;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 1136px;
+  margin: 32px auto 0;
+}
+
+.card {
+  max-width: 556px;
+  min-height: 692px;
+  padding: 60px;
+  border-radius: 12px;
+  background: #fff;
+}

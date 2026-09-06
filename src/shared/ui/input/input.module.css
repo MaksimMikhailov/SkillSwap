@@ -1,0 +1,27 @@
+.search {
+  text-decoration: none;
+  border: none;
+  user-select: none;
+  font-family: var(--font-Roboto-Regular);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.02em;
+  color: #69735d;
+}
+
+.wrapSearch {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: start;
+  width: 527px;
+  outline: none;
+  padding: 14px;
+  background: #fff;
+}
+input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none; /* Иногда рамка задаётся тенью, её тоже стоит убрать */
+}

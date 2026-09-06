@@ -1,0 +1,287 @@
+[
+  {
+    "id": "1",
+    "title": "Как выстроить сильную команду без микроменеджмента",
+    "description": "Научу выстраивать процессы в команде, распределять задачи и поддерживать мотивацию участников проекта.",
+    "type": "teach",
+    "categoryId": "1",
+    "subcategoryId": "1",
+    "tags": ["Управление командой"],
+    "imageUrl": "/images/skills/drums/Image1.jpg",
+    "images": [
+      "/images/skills/drums/Image1.jpg",
+      "/images/skills/drums/image2.jpeg",
+      "/images/skills/drums/image3.jpeg",
+      "/images/skills/drums/image4.jpeg",
+      "/images/skills/drums/image5.jpeg"
+    ],
+    "authorId": "6",
+    "likesCount": 0,
+    "createdAt": "2025-11-29T20:15:00Z",
+    "updatedAt": "2025-11-29T20:15:00Z"
+  },
+  {
+    "id": "2",
+    "title": "Семейный бюджет без стресса и сложных таблиц",
+    "description": "Научу вести семейный бюджет, планировать расходы и находить простые способы экономии без жёстких ограничений.",
+    "type": "teach",
+    "categoryId": "3",
+    "subcategoryId": "17",
+    "tags": ["Домашние финансы"],
+    "imageUrl": "/images/skills/finance/image1.jpeg",
+    "images": [
+      "/images/skills/finance/image1.jpeg",
+      "/images/skills/finance/image2.jpeg",
+      "/images/skills/finance/image3.jpeg",
+      "/images/skills/finance/image4.jpeg"
+    ],
+    "authorId": "10",
+    "likesCount": 12,
+    "createdAt": "2025-11-29T19:55:00Z",
+    "updatedAt": "2025-11-29T19:55:00Z"
+  },
+  {
+    "id": "3",
+    "title": "Читаем быстрее и запоминаем главное",
+    "description": "Научу читать быстрее, выделять главное в тексте и лучше запоминать информацию после чтения.",
+    "type": "teach",
+    "categoryId": "5",
+    "subcategoryId": "33",
+    "tags": ["Скорочтение"],
+    "imageUrl": "/images/skills/office/image1.jpeg",
+    "images": [
+      "/images/skills/office/image1.jpeg",
+      "/images/skills/office/image2.jpeg",
+      "/images/skills/office/image3.jpeg",
+      "/images/skills/office/image4.jpeg"
+    ],
+    "authorId": "3",
+    "likesCount": 15,
+    "createdAt": "2025-11-29T21:05:00Z",
+    "updatedAt": "2025-11-29T21:05:00Z"
+  },
+  {
+    "id": "4",
+    "title": "Как успевать важное и не выгорать",
+    "description": "Научу планировать день, расставлять приоритеты и доводить задачи до результата без перегрузки.",
+    "type": "teach",
+    "categoryId": "1",
+    "subcategoryId": "6",
+    "tags": ["Тайм-менеджмент"],
+    "imageUrl": "/images/skills/drums/Image1.jpg",
+    "images": [
+      "/images/skills/drums/Image1.jpg",
+      "/images/skills/drums/image2.jpeg",
+      "/images/skills/drums/image3.jpeg",
+      "/images/skills/drums/image4.jpeg",
+      "/images/skills/drums/image5.jpeg"
+    ],
+    "authorId": "12",
+    "likesCount": 21,
+    "createdAt": "2025-11-29T19:50:00Z",
+    "updatedAt": "2025-11-29T19:50:00Z"
+  },
+  {
+    "id": "5",
+    "title": "Барабаны с нуля: поставим первый грув",
+    "description": "Научу правильно держать палочки, чувствовать ритм, играть базовые грувы и разбирать любимые песни. Занятия подойдут начинающим без музыкальной подготовки.",
+    "type": "teach",
+    "categoryId": "4",
+    "subcategoryId": "25",
+    "tags": ["Музыка и звук"],
+    "imageUrl": "/images/skills/finance/image1.jpeg",
+    "images": [
+      "/images/skills/finance/image1.jpeg",
+      "/images/skills/finance/image2.jpeg",
+      "/images/skills/finance/image3.jpeg",
+      "/images/skills/finance/image4.jpeg"
+    ],
+    "authorId": "1",
+    "likesCount": 18,
+    "createdAt": "2025-12-02T10:00:00Z",
+    "updatedAt": "2025-12-02T10:00:00Z"
+  },
+  {
+    "id": "6",
+    "title": "Английский для путешествий без языкового барьера",
+    "description": "Помогу преодолеть языковой барьер, пополнить словарный запас и уверенно общаться в поездках. Будем практиковать живые диалоги и полезные повседневные ситуации.",
+    "type": "teach",
+    "categoryId": "2",
+    "subcategoryId": "9",
+    "tags": ["Английский"],
+    "imageUrl": "/images/skills/office/image1.jpeg",
+    "images": [
+      "/images/skills/office/image1.jpeg",
+      "/images/skills/office/image2.jpeg",
+      "/images/skills/office/image3.jpeg",
+      "/images/skills/office/image4.jpeg"
+    ],
+    "authorId": "2",
+    "likesCount": 24,
+    "createdAt": "2025-12-03T11:30:00Z",
+    "updatedAt": "2025-12-03T11:30:00Z"
+  },
+  {
+    "id": "7",
+    "title": "Живой портрет: от постановки света до ретуши",
+    "description": "Научу работать со светом и композицией, помогать модели чувствовать себя уверенно в кадре и аккуратно обрабатывать портреты в Lightroom и Photoshop.",
+    "type": "teach",
+    "categoryId": "4",
+    "subcategoryId": "23",
+    "tags": ["Фотография"],
+    "imageUrl": "/images/skills/drums/Image1.jpg",
+    "images": [
+      "/images/skills/drums/Image1.jpg",
+      "/images/skills/drums/image2.jpeg",
+      "/images/skills/drums/image3.jpeg",
+      "/images/skills/drums/image4.jpeg",
+      "/images/skills/drums/image5.jpeg"
+    ],
+    "authorId": "4",
+    "likesCount": 31,
+    "createdAt": "2025-12-04T09:15:00Z",
+    "updatedAt": "2025-12-04T09:15:00Z"
+  },
+  {
+    "id": "8",
+    "title": "Тайский бокс: уверенный старт для новичка",
+    "description": "Покажу базовую стойку, технику ударов и защиты, помогу развить выносливость и координацию. Особое внимание уделяю безопасности и постепенному прогрессу.",
+    "type": "teach",
+    "categoryId": "6",
+    "subcategoryId": "40",
+    "tags": ["Физические тренировки"],
+    "imageUrl": "/images/skills/finance/image1.jpeg",
+    "images": [
+      "/images/skills/finance/image1.jpeg",
+      "/images/skills/finance/image2.jpeg",
+      "/images/skills/finance/image3.jpeg",
+      "/images/skills/finance/image4.jpeg"
+    ],
+    "authorId": "5",
+    "likesCount": 16,
+    "createdAt": "2025-12-05T17:00:00Z",
+    "updatedAt": "2025-12-05T17:00:00Z"
+  },
+  {
+    "id": "9",
+    "title": "Первые ритмы на барабанах без нотной грамоты",
+    "description": "Научу держать палочки, считать ритм и играть простые барабанные партии. Начнём с базовых упражнений и постепенно разберём любимые композиции.",
+    "type": "teach",
+    "categoryId": "4",
+    "subcategoryId": "25",
+    "tags": ["Музыка и звук"],
+    "imageUrl": "/images/skills/office/image1.jpeg",
+    "images": [
+      "/images/skills/office/image1.jpeg",
+      "/images/skills/office/image2.jpeg",
+      "/images/skills/office/image3.jpeg",
+      "/images/skills/office/image4.jpeg"
+    ],
+    "authorId": "7",
+    "likesCount": 27,
+    "createdAt": "2025-12-06T12:20:00Z",
+    "updatedAt": "2025-12-06T12:20:00Z"
+  },
+  {
+    "id": "10",
+    "title": "Йога для гибкости, дыхания и спокойствия",
+    "description": "Помогу освоить базовые асаны, улучшить гибкость и научиться расслабляться с помощью дыхательных практик. Программа подходит для любого уровня подготовки.",
+    "type": "teach",
+    "categoryId": "6",
+    "subcategoryId": "36",
+    "tags": ["Йога и медитация"],
+    "imageUrl": "/images/skills/drums/Image1.jpg",
+    "images": [
+      "/images/skills/drums/Image1.jpg",
+      "/images/skills/drums/image2.jpeg",
+      "/images/skills/drums/image3.jpeg",
+      "/images/skills/drums/image4.jpeg",
+      "/images/skills/drums/image5.jpeg"
+    ],
+    "authorId": "8",
+    "likesCount": 22,
+    "createdAt": "2025-12-07T08:40:00Z",
+    "updatedAt": "2025-12-07T08:40:00Z"
+  },
+  {
+    "id": "11",
+    "title": "Разбираем барабанные партии любимых песен",
+    "description": "Помогу освоить базовые ритмы, координацию рук и ног и уверенную игру под метроном. На занятиях разберём структуру песен и простые барабанные партии.",
+    "type": "teach",
+    "categoryId": "4",
+    "subcategoryId": "25",
+    "tags": ["Музыка и звук"],
+    "imageUrl": "/images/skills/finance/image1.jpeg",
+    "images": [
+      "/images/skills/finance/image1.jpeg",
+      "/images/skills/finance/image2.jpeg",
+      "/images/skills/finance/image3.jpeg",
+      "/images/skills/finance/image4.jpeg"
+    ],
+    "authorId": "9",
+    "likesCount": 19,
+    "createdAt": "2025-12-08T14:10:00Z",
+    "updatedAt": "2025-12-08T14:10:00Z"
+  },
+  {
+    "id": "12",
+    "title": "База тайского бокса: стойка, удары и защита",
+    "description": "Научу базовой стойке, безопасной технике ударов и простым защитным движениям. Занятия помогут развить координацию, выносливость и уверенность в своих силах.",
+    "type": "teach",
+    "categoryId": "6",
+    "subcategoryId": "40",
+    "tags": ["Физические тренировки"],
+    "imageUrl": "/images/skills/office/image1.jpeg",
+    "images": [
+      "/images/skills/office/image1.jpeg",
+      "/images/skills/office/image2.jpeg",
+      "/images/skills/office/image3.jpeg",
+      "/images/skills/office/image4.jpeg"
+    ],
+    "authorId": "11",
+    "likesCount": 14,
+    "createdAt": "2025-12-09T15:45:00Z",
+    "updatedAt": "2025-12-09T15:45:00Z"
+  },
+  {
+    "id": "13",
+    "title": "Как отдыхать вовремя и сохранять силы",
+    "description": "Научу планировать нагрузку, находить время для полноценного отдыха и восстанавливать силы без чувства вины. Вместе составим устойчивый ритм недели без перегрузок.",
+    "type": "teach",
+    "categoryId": "6",
+    "subcategoryId": "42",
+    "tags": ["Баланс жизни и работы"],
+    "imageUrl": "/images/skills/drums/Image1.jpg",
+    "images": [
+      "/images/skills/drums/Image1.jpg",
+      "/images/skills/drums/image2.jpeg",
+      "/images/skills/drums/image3.jpeg",
+      "/images/skills/drums/image4.jpeg",
+      "/images/skills/drums/image5.jpeg"
+    ],
+    "authorId": "13",
+    "likesCount": 11,
+    "createdAt": "2025-12-10T06:30:00Z",
+    "updatedAt": "2025-12-10T06:30:00Z"
+  },
+  {
+    "id": "14",
+    "title": "Скорочтение для больших объёмов информации",
+    "description": "Научу читать быстрее, выделять главные мысли и лучше запоминать информацию. Разберём упражнения для концентрации и техники осмысленного чтения.",
+    "type": "teach",
+    "categoryId": "5",
+    "subcategoryId": "33",
+    "tags": ["Скорочтение"],
+    "imageUrl": "/images/skills/finance/image1.jpeg",
+    "images": [
+      "/images/skills/finance/image1.jpeg",
+      "/images/skills/finance/image2.jpeg",
+      "/images/skills/finance/image3.jpeg",
+      "/images/skills/finance/image4.jpeg"
+    ],
+    "authorId": "14",
+    "likesCount": 20,
+    "createdAt": "2025-12-11T13:25:00Z",
+    "updatedAt": "2025-12-11T13:25:00Z"
+  }
+]

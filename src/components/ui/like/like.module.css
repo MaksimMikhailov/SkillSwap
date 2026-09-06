@@ -1,0 +1,6 @@
+.wraps {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 4px;
+}

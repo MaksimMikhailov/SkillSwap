@@ -1,0 +1,20 @@
+@font-face {
+  font-family: Roboto-Medium;
+  src: url(./Roboto/Roboto-Medium.woff2) format("woff2");
+}
+@font-face {
+  font-family: Roboto-Regular;
+  src: url(./Roboto/Roboto-Regular.woff2) format("woff2");
+}
+@font-face {
+  font-family: OpenSans-SemiBold;
+  src: url(./Open_sans/OpenSans-SemiBold.woff2) format("woff2");
+}
+@font-face {
+  font-family: Jost-Medium;
+  src: url(./Jost/Jost-Medium.woff2) format("woff2");
+}
+@font-face {
+  font-family: Jost-SemiBold;
+  src: url(./Jost/Jost-SemiBold.woff2) format("woff2");
+}
