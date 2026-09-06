@@ -5,6 +5,8 @@ import { Input } from "../input";
 import { useState, type FormEvent } from "react";
 import { Selector } from "../../../shared/ui/selector";
 import * as yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../services/store";
 export interface IInfo {
   name: string;
   date: string;

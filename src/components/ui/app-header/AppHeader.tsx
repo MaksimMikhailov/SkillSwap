@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import HeaderLogo from "../../../shared/icon/assets/HeaderLogo.svg";
 import like from "../../../shared/icon/assets/like.svg";
 import notification from "../../../shared/icon/assets/notification.svg";
@@ -7,8 +7,13 @@ import moon from "../../../shared/icon/assets/moon.svg";
 import styles from "./appHeader.module.css";
 import { useState } from "react";
 import { Input } from "../../../shared/ui/input";
+import { useSelector } from "react-redux";
+import { routes } from "../../../shared/lib/constants";
+import type { RootState } from "../../../services/store";
 export function AppHeader() {
-  const [isAuth, setisAuth] = useState(false);
+  const isAuth = useSelector((store: RootState) => store.auth.IsAuth);
+  const auth = useSelector((store: RootState) => store.auth.auth);
+
   const [value, setValue] = useState("");
   return (
     <header className={styles.header}>
@@ -21,19 +26,18 @@ export function AppHeader() {
         </div>
       </nav>
       <Input onchange={setValue} placeholder="Искать навык" type="search" />
-
-      {isAuth ? (
+      {!isAuth ? (
         <div className={styles.wrapBtn}>
           <button>
             <img src={moon} alt="" />
           </button>
           <div className={styles.wrapAuth}>
-            <button className={styles.authBtn} onClick={() => setisAuth(true)}>
+            <Link to={routes.auth} className={styles.authBtn}>
               Войти
-            </button>
-            <button className={styles.regBtn} onClick={() => setisAuth(true)}>
+            </Link>
+            <Link to={routes.register} className={styles.regBtn}>
               Зарегистрироваться
-            </button>
+            </Link>
           </div>
         </div>
       ) : (
@@ -50,8 +54,8 @@ export function AppHeader() {
             </NavLink>
           </div>
           <div>
-            <p>Максим</p>
-            <img src="image" alt="" />
+            <p>{auth?.name}</p>
+            <img src={auth?.name} alt="" />
           </div>
         </div>
       )}

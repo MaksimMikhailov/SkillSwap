@@ -8,6 +8,7 @@
   flex-direction: column;
   gap: 4px;
   width: 100%;
+  position: relative;
 }
 .field {
   display: flex;
@@ -34,4 +35,14 @@
   font: 400 16px/150% var(--font-Roboto-Regular);
   letter-spacing: 0.02em;
   color: #253017;
+}
+.error {
+  position: absolute;
+  bottom: -18px;
+  font-family: var(--font-Roboto-Regular);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 133%;
+  letter-spacing: 0.02em;
+  color: #bf3920;
 }

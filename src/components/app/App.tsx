@@ -9,19 +9,28 @@ import { ProfilePage } from "../../pages/profilePage";
 import { RegisterPage } from "../../pages/registerPage";
 import { SkillPage } from "../../pages/skillPage";
 import { NotFoundPage } from "../../pages/notFoundPage";
-import { AppFooter } from "../ui/app-footer";
 import { Container } from "../ui/container";
+import { useSelector } from "react-redux";
+
+import { ProtectedRoute } from "../protectedRoute";
+import type { RootState } from "../../services/store";
 
 function App() {
+  const isAuth = useSelector((store: RootState) => store.auth.IsAuth);
+  const auth = useSelector((store: RootState) => store.auth.auth);
+
   return (
     <>
       <Routes>
         <Route element={<Container />}>
-          <Route path={routes.auth} element={<AuthPage />} />
-          <Route path={routes.favorite} element={<FavoritePage />} />
+          <Route element={<ProtectedRoute isAuth={isAuth} />}>
+            <Route path={routes.profile} element={<ProfilePage />} />
+            <Route path={routes.favorite} element={<FavoritePage />} />
+          </Route>
+          <Route element={<ProtectedRoute isAuth={isAuth} onlyOnAuth />}>
+            <Route path={routes.auth} element={<AuthPage />} />
+          </Route>
           <Route path={routes.main} element={<MainPage />} />
-          <Route path={routes.profile} element={<ProfilePage />} />
-
           <Route path={routes.skill} element={<SkillPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

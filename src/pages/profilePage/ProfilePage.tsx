@@ -12,7 +12,7 @@ import { Like } from "../../components/ui/like";
 import { useState } from "react";
 import type { IUserInfo } from "../../components/ui/card/Card";
 import type { Skills } from "../../shared/lib/types";
-interface profileData {
+export interface profileData {
   userInfo: IUserInfo;
   teachskills: Skills[];
   learnskills: Skills[];

@@ -1,0 +1,5 @@
+[
+  { "id": "female", "name": "Женский" },
+  { "id": "male", "name": "Мужской" },
+  { "id": "notSpecified", "name": "Не указывать" }
+]

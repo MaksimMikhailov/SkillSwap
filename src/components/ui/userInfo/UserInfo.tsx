@@ -23,7 +23,9 @@ export function UserInfo({
 
   return (
     <div className={styles.container}>
-      <img src={image} alt="" className={styles.image} />
+      <div className={styles.image}>
+        <img src={image} alt="" className={styles.image} />
+      </div>
       <div className={styles.wrapLike}>
         {isHeartDisplay && (
           <Like
