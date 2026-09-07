@@ -20,7 +20,7 @@ interface CardProps {
   id: string;
   description?: string;
   isHeartDisplay?: boolean;
-  setCount?: (count: number) => void;
+
   hasProfile?: boolean;
 }
 export function Card({
@@ -31,7 +31,7 @@ export function Card({
   id,
   description,
   isHeartDisplay,
-  setCount,
+
   hasProfile = true,
 }: CardProps) {
   const skillColors = {
@@ -47,9 +47,8 @@ export function Card({
     <div className={`${styles.card} ${!hasProfile ? styles.cardProfile : ""}`}>
       <UserInfo
         {...userInfo}
-        count={likesCount}
+        likesCount={likesCount}
         isHeartDisplay={isHeartDisplay}
-        setCount={setCount}
       />
       {description && <p className={styles.description}>{description}</p>}
       <div className={styles.wrapSkills}>
