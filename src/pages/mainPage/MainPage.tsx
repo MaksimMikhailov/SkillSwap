@@ -16,31 +16,31 @@ import {
   getCategory,
   getUsers,
   getСity,
+  type ICategory,
 } from "../../services/store/slice/userSlice";
 export const MainPage = () => {
-  const array: profileData[] = [
-    {
-      learnskills: ["Медитация", "Английский язык", "Бизнес-план"],
-      teachskills: ["Медитация", "Английский язык", "Бизнес-план"],
-      userInfo: { age: 12, image: image, name: "Никита", city: "Питер" },
-    },
-    {
-      learnskills: ["Медитация", "Английский язык", "Бизнес-план"],
-      teachskills: ["Медитация", "Английский язык", "Бизнес-план"],
-      userInfo: { age: 12, image: image, name: "Никита", city: "Питер" },
-    },
-    {
-      learnskills: ["Медитация", "Английский язык", "Бизнес-план"],
-      teachskills: ["Медитация", "Английский язык", "Бизнес-план"],
-      userInfo: { age: 12, image: image, name: "Никита", city: "Питер" },
-    },
-  ];
+  const [displayCount, setDisplayCount] = useState(3);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getSkills());
     dispatch(getUsers());
     dispatch(getСity());
     dispatch(getCategory());
+  }, [dispatch]);
+  useEffect(() => {
+    let timer: number;
+    function handleScroll() {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight;
+        const docVision = window.innerHeight;
+        if (scrollTop + docVision >= docHeight - 200) {
+          setDisplayCount((prev) => prev + 3);
+        }
+      }, 300);
+    }
+    window.addEventListener("scroll", handleScroll);
   }, []);
   const { user, city, category, loading } = useSelector(
     (state: RootState) => state.user,
@@ -55,21 +55,29 @@ export const MainPage = () => {
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
   }
-  console.log(popularCount());
+
+  const mapCategoryNames = (ids: string[], categories: ICategory[]) =>
+    ids
+      .map((ids) => categories.find((el) => el.id === ids)?.name)
+      .filter((name): name is string => Boolean(name));
+  const mapSubcategoryNames = (
+    ids: string[] = [],
+    categories: ICategory[] = [],
+  ) =>
+    ids
+      .flatMap((id) =>
+        categories
+          .flatMap((category) => category.subcategories)
+          .filter((subcategory) => subcategory.id === id),
+      )
+      .map((subcategory) => subcategory.name)
+      .filter((name): name is string => Boolean(name));
+
   function GetCardsInfo(skills: ISkills[]) {
     return skills.map((skill) => {
       const author = user.find((el) => el.id === skill.authorId);
-      const authorCity = city.find((el) => el.id === author?.cityId)?.name;
-
-      const authorCategory = author?.learnCategoryIds.map(
-        (el) => category.find((category) => category.id === el)!,
-      );
-      const authorSubCategory = author?.learnSubcategoryIds.map((id, index) => {
-        if (!authorCategory) return;
-        for (const element of authorCategory) {
-          return element?.subcategories.find((el) => el.id === id);
-        }
-      });
+      if (!author) return;
+      const authorCity = city.find((el) => el.id === author.cityId)?.name;
 
       const teachSkillsCategory = category.find(
         (el) => el.id === skill.categoryId,
@@ -81,13 +89,14 @@ export const MainPage = () => {
       return {
         likesCount: skill.likesCount,
         userInfo: {
-          name: author?.name,
-          image: author?.avatarUrl,
-          age: author?.age,
+          name: author.name,
+          image: author.avatarUrl,
+          age: author.age,
           city: authorCity,
         },
-        learnskills: authorCategory?.map((item) => item?.name),
+        learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
         teachskills: [teachSkills?.name],
+        category: mapCategoryNames(author.learnCategoryIds, category),
       };
     });
   }
@@ -127,7 +136,7 @@ export const MainPage = () => {
         </div>
         <div className={styles.mainCards}>
           {GetCardsInfo(skills)
-            .slice(0, 3)
+            .slice(0, displayCount)
             .map((el, index) => (
               <Card {...el} id={index.toString()} isHeartDisplay />
             ))}

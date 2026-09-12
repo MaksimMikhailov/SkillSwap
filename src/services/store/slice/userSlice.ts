@@ -24,7 +24,7 @@ interface ICity {
   id: string;
   name: string;
 }
-interface ICategory {
+export interface ICategory {
   id: string;
   name: string;
   icon: string;
