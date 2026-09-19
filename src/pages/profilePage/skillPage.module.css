@@ -82,12 +82,20 @@
   grid-template-rows: repeat(3, 1fr);
   column-gap: 24px;
   row-gap: 24px;
+  object-fit: contain;
+  img:first-child {
+    grid-row: span 3;
+    height: 100%;
+    object-fit: contain;
+  }
+  img:not(:first-child) {
+    width: 92px;
+    height: 92px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
 }
-.imageRight {
-}
-.imageLarge {
-  grid-row: span 3;
-}
+
 .wrapcards {
   position: relative;
   display: flex;
@@ -131,6 +139,15 @@
   justify-content: center;
   transform: rotate(180deg);
   transition: all 0.3s ease;
+}
+.wrapper {
+  position: relative;
+  .arrowSecondary:first-child {
+    left: 16px;
+  }
+  .arrowSecondary:last-child {
+    right: 136px;
+  }
 }
 .arrowRight:hover,
 .arrowLeft:hover {

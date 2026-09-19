@@ -1,1 +1,1 @@
-export { SkillPage } from "./SkillPage";
+export { ProfilePage } from "./ProfilePage";

@@ -1,32 +1,16 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../components/ui/card";
-import { UserInfo } from "../../components/ui/userInfo";
 import chevronRight from "../../shared/icon/assets/chevron-right.svg";
 import styles from "./mainPage.module.css";
 import { Filter } from "../../components/ui/filter";
-import type { profileData } from "../profilePage/ProfilePage";
-import image from "../../shared/icon/assets/Image.png";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getSkills,
-  type ISkills,
-} from "../../services/store/slice/skillsSlice";
-import type { AppDispatch, RootState } from "../../services/store";
-import {
-  getCategory,
-  getUsers,
-  getСity,
-  type ICategory,
-} from "../../services/store/slice/userSlice";
+
+import { useSelector } from "react-redux";
+import { type ISkills } from "../../services/store/slice/skillsSlice";
+import type { RootState } from "../../services/store";
+import { type ICategory } from "../../services/store/slice/userSlice";
 export const MainPage = () => {
   const [displayCount, setDisplayCount] = useState(3);
-  const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    dispatch(getSkills());
-    dispatch(getUsers());
-    dispatch(getСity());
-    dispatch(getCategory());
-  }, [dispatch]);
+
   useEffect(() => {
     let timer: number;
     function handleScroll() {
@@ -94,6 +78,7 @@ export const MainPage = () => {
           age: author.age,
           city: authorCity,
         },
+        id: skill.id,
         learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
         teachskills: [teachSkills?.name],
         category: mapCategoryNames(author.learnCategoryIds, category),
@@ -115,7 +100,7 @@ export const MainPage = () => {
           {GetCardsInfo(popularCount())
             .slice(0, 3)
             .map((el, index) => (
-              <Card {...el} id={index.toString()} isHeartDisplay />
+              <Card {...el} isHeartDisplay />
             ))}
         </div>
         <div className={styles.headerCards}>
@@ -128,7 +113,7 @@ export const MainPage = () => {
           {GetCardsInfo(dateCount())
             .slice(0, 3)
             .map((el, index) => (
-              <Card {...el} id={index.toString()} isHeartDisplay />
+              <Card {...el} isHeartDisplay />
             ))}
         </div>
         <div className={styles.headerCards}>
@@ -138,7 +123,7 @@ export const MainPage = () => {
           {GetCardsInfo(skills)
             .slice(0, displayCount)
             .map((el, index) => (
-              <Card {...el} id={index.toString()} isHeartDisplay />
+              <Card {...el} isHeartDisplay />
             ))}
         </div>
       </div>

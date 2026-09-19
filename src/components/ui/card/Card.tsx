@@ -15,8 +15,8 @@ export interface IUserInfo {
 
 interface CardProps {
   userInfo: IUserInfo;
-  teachskills: Skills[];
-  learnskills: Skills[];
+  teachskills: string[];
+  learnskills: string[];
   likesCount?: number;
   id: string;
   description?: string;
@@ -32,7 +32,6 @@ export function Card({
   id,
   description,
   isHeartDisplay,
-
   hasProfile = true,
 }: CardProps) {
   const skillColors = {
@@ -67,7 +66,7 @@ export function Card({
         <div className={styles.teachskills}>
           <strong className={styles.titles}>Может научить:</strong>
           <div className={styles.skills}>
-            {teachskills.slice(0, 2).map((el) => (
+            {teachskills?.slice(0, 2).map((el) => (
               <div
                 className={styles.skill}
                 style={{
@@ -78,7 +77,7 @@ export function Card({
                 {el}
               </div>
             ))}
-            {learnskills.length > 2 && (
+            {learnskills?.length > 2 && (
               <div
                 className={styles.skill}
                 style={{ backgroundColor: "#E8ECF7" }}
@@ -91,7 +90,7 @@ export function Card({
         <div className={styles.learnskills}>
           <strong className={styles.titles}>Хочет научиться:</strong>
           <div className={styles.skills}>
-            {learnskills.slice(0, 2).map((el) => (
+            {learnskills?.slice(0, 2).map((el) => (
               <div
                 className={styles.skill}
                 style={{
@@ -102,7 +101,7 @@ export function Card({
                 {el}
               </div>
             ))}
-            {learnskills.length > 2 && (
+            {learnskills?.length > 2 && (
               <div
                 className={styles.skill}
                 style={{ backgroundColor: "#E8ECF7" }}
