@@ -102,7 +102,7 @@ export function RegisterStepThreeLeft({
         <p className={styles.selectText}>
           Перетащите или выберите изображения навыка
         </p>
-        <input type="file" ref={inputRef} hidden />
+        <input type="file" accept="image/*" ref={inputRef} hidden />
         <div className={styles.inputFile}>
           <img src={galleryAdd} alt="" />
           <p>Выбрать изображения</p>

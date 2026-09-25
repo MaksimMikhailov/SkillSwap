@@ -20,7 +20,7 @@ interface ISubCategory {
   id: string;
   name: string;
 }
-interface ICity {
+export interface ICity {
   id: string;
   name: string;
 }

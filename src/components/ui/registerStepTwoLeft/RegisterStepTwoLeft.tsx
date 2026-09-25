@@ -2,8 +2,9 @@ import styles from "./registerStepTwoLeft.module.css";
 import addIcon from "../../../shared/icon/assets/Icon+Add.svg";
 
 import { Input } from "../input";
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Selector } from "../../../shared/ui/selector";
+
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../services/store";
@@ -25,9 +26,9 @@ export function RegisterStepTwoLeft({
 }: IRegisterStepTwoLeftProps) {
   const [error, setError] = useState<Partial<IInfo>>({});
   const [IsNamed, setIsNamed] = useState("");
+  const [image, setImage] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const [date, setDate] = useState("");
-  const [city, setCity] = useState("");
-  const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const schema = yup.object({
     name: yup.string().required("Введите имя"),
@@ -37,6 +38,8 @@ export function RegisterStepTwoLeft({
     category: yup.string().required("Введите категорию"),
     subCategory: yup.string().required("Введите подкатегорию"),
   });
+  const { category, city } = useSelector((state: RootState) => state.user);
+  console.log(category);
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     try {
@@ -63,10 +66,43 @@ export function RegisterStepTwoLeft({
       }
     }
   }
-
+  const categoriesOptions = category.map((el) => ({
+    value: el.id,
+    label: el.name,
+  }));
+  const subCategoriesOptions = category
+    .flatMap((el) => el.subcategories)
+    .map((el) => ({
+      value: el.id,
+      label: el.name,
+    }));
+  const cityOptions = city.map((el) => ({
+    value: el.id,
+    label: el.name,
+  }));
   return (
     <form onSubmit={handleSubmit}>
-      <img src={addIcon} alt="" className={styles.image} />
+      <input
+        type="file"
+        accept="image/*"
+        ref={inputRef}
+        hidden
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => setImage(String(reader.result));
+          reader.readAsDataURL(file);
+        }}
+      />
+      <img
+        src={image || addIcon}
+        alt=""
+        onClick={() => {
+          inputRef.current?.click();
+        }}
+        className={styles.image}
+      />
       <Input
         label="Имя"
         onchange={setIsNamed}
@@ -103,7 +139,7 @@ export function RegisterStepTwoLeft({
 
       <Selector
         label="Город"
-        options={[{ value: "Москва", label: "Москва" }]}
+        options={cityOptions}
         placeHolder="Не указано"
         value=""
         textError={error.city || ""}
@@ -111,7 +147,7 @@ export function RegisterStepTwoLeft({
       />
       <Selector
         label="Категория навыка, которому хотите научиться"
-        options={[]}
+        options={categoriesOptions}
         placeHolder="Выберите категорию"
         value=""
         textError={error.category || ""}
@@ -119,7 +155,7 @@ export function RegisterStepTwoLeft({
       />
       <Selector
         label="Подкатегория навыка, которому хотите научиться"
-        options={[]}
+        options={subCategoriesOptions}
         placeHolder="Выберите подкатегорию"
         value=""
         textError={error.subCategory || ""}
