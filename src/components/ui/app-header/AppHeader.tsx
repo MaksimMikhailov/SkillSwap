@@ -17,7 +17,10 @@ export function AppHeader() {
   const [value, setValue] = useState("");
   return (
     <header className={styles.header}>
-      <img src={HeaderLogo} alt="" />
+      <Link to={routes.main}>
+        <img src={HeaderLogo} alt="" />
+      </Link>
+
       <nav className={styles.nav}>
         <NavLink to="/">О проекте</NavLink>
         <div className={styles.wrapNav}>

@@ -47,6 +47,7 @@
   color: #253017;
   border-radius: 20px;
   padding: 8px 12px;
+  white-space: nowrap;
 }
 
 .button {

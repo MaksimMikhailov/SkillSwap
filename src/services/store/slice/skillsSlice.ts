@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-interface ISkills {
+export interface ISkills {
   id: string;
   title: string;
   description: string;

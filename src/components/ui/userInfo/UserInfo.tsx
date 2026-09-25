@@ -7,7 +7,7 @@ interface UserInfoProps {
   city: string;
   age: number;
   isHeartDisplay?: boolean;
-  setCount?: (count: number) => void;
+  likesCount?: number;
   count?: number;
 }
 export function UserInfo({
@@ -16,11 +16,10 @@ export function UserInfo({
   city,
   age,
   isHeartDisplay,
-  setCount,
-  count,
+  likesCount,
 }: UserInfoProps) {
   const [isActive, setIsActive] = useState(false);
-
+  const [count, setCount] = useState(likesCount);
   return (
     <div className={styles.container}>
       <div className={styles.image}>
