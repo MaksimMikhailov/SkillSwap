@@ -8,6 +8,10 @@ import { Selector } from "../../../shared/ui/selector";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../services/store";
+import {
+  getCategoryOption,
+  getSubCategoryOption,
+} from "../../../shared/lib/helpers";
 export interface IInfo {
   name: string;
   date: string;
@@ -15,6 +19,7 @@ export interface IInfo {
   city: string;
   category: string;
   subCategory: string;
+  image: string;
 }
 export interface IRegisterStepTwoLeftProps {
   onBack?: () => void;
@@ -29,28 +34,32 @@ export function RegisterStepTwoLeft({
   const [image, setImage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [date, setDate] = useState("");
+  const [gender, setGender] = useState("");
+  const [userCity, setCity] = useState("");
   const [subCategory, setSubCategory] = useState("");
+  const [userCategory, setCategory] = useState("");
   const schema = yup.object({
     name: yup.string().required("Введите имя"),
     date: yup.string().required("Введите дату"),
-    gender: yup.string().required("Введите полы"),
+    gender: yup.string().required("Введите пол"),
     city: yup.string().required("Введите город"),
     category: yup.string().required("Введите категорию"),
     subCategory: yup.string().required("Введите подкатегорию"),
+    image: yup.string().required("Выберите изображение"),
   });
   const { category, city } = useSelector((state: RootState) => state.user);
-  console.log(category);
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     try {
       const validate = await schema.validate(
         {
           name: IsNamed,
-          date: "",
-          gender: "",
-          city: "",
-          category: "",
-          subCategory: "",
+          date,
+          gender,
+          city: userCity,
+          category: userCategory,
+          subCategory,
         },
         { abortEarly: false },
       );
@@ -66,16 +75,6 @@ export function RegisterStepTwoLeft({
       }
     }
   }
-  const categoriesOptions = category.map((el) => ({
-    value: el.id,
-    label: el.name,
-  }));
-  const subCategoriesOptions = category
-    .flatMap((el) => el.subcategories)
-    .map((el) => ({
-      value: el.id,
-      label: el.name,
-    }));
   const cityOptions = city.map((el) => ({
     value: el.id,
     label: el.name,
@@ -103,6 +102,7 @@ export function RegisterStepTwoLeft({
         }}
         className={styles.image}
       />
+      {error.image && <p className={styles.date}>Выберите изображение</p>}
       <Input
         label="Имя"
         onchange={setIsNamed}
@@ -122,7 +122,10 @@ export function RegisterStepTwoLeft({
             placeholder="дд.мм.гггг"
             className={styles.input}
             id="date"
+            onChange={(event) => setDate(event.target.value)}
+            value={date}
           />
+          {error.date && <p className={styles.date}>Введите дату</p>}
         </div>
         <Selector
           label="Пол"
@@ -131,7 +134,8 @@ export function RegisterStepTwoLeft({
             { value: "Женский", label: "Женский" },
           ]}
           placeHolder="Не указано"
-          value=""
+          onChange={setGender}
+          value={gender}
           textError={error.gender || ""}
           error={!!error.gender}
         />
@@ -141,23 +145,26 @@ export function RegisterStepTwoLeft({
         label="Город"
         options={cityOptions}
         placeHolder="Не указано"
-        value=""
+        onChange={setCity}
+        value={userCity}
         textError={error.city || ""}
         error={!!error.city}
       />
       <Selector
         label="Категория навыка, которому хотите научиться"
-        options={categoriesOptions}
+        options={getCategoryOption(category)}
         placeHolder="Выберите категорию"
-        value=""
+        onChange={setCategory}
+        value={userCategory}
         textError={error.category || ""}
         error={!!error.category}
       />
       <Selector
         label="Подкатегория навыка, которому хотите научиться"
-        options={subCategoriesOptions}
+        options={getSubCategoryOption(category)}
         placeHolder="Выберите подкатегорию"
-        value=""
+        onChange={setSubCategory}
+        value={subCategory}
         textError={error.subCategory || ""}
         error={!!error.subCategory}
       />

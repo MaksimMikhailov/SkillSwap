@@ -9,8 +9,7 @@ interface InputProps {
   options: Option[];
   error?: boolean;
   textError: string;
-
-  setStateIcon?: () => void;
+  onChange: (value: string) => void;
 }
 interface Option {
   label: string;
@@ -23,17 +22,21 @@ export function Selector({
   options,
   error,
   textError,
-
-  setStateIcon,
+  onChange,
 }: InputProps) {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className={styles.wraps}>
       <label htmlFor="gender" className={styles.label}>
         {label}
       </label>
       <div className={styles.field} onClick={() => setIsOpen(!isOpen)}>
-        <select id="gender" className={styles.selected}>
+        <select
+          onChange={(event) => onChange(event.target.value)}
+          id="gender"
+          className={styles.selected}
+        >
           {value && <option value={placeHolder}>{placeHolder}</option>}
           {options.map((el) => (
             <option value={el.value}>{el.label}</option>

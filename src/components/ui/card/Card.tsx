@@ -1,7 +1,6 @@
 import styles from "./card.module.css";
 import { UserInfo } from "../userInfo";
-import type { Skills } from "../../../shared/lib/types";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { routes } from "../../../shared/lib/constants";
 import type { RootState } from "../../../services/store";
 import { useSelector } from "react-redux";
@@ -21,7 +20,7 @@ interface CardProps {
   id: string;
   description?: string;
   isHeartDisplay?: boolean;
-
+  showSkill?: boolean;
   hasProfile?: boolean;
 }
 export function Card({
@@ -33,6 +32,7 @@ export function Card({
   description,
   isHeartDisplay,
   hasProfile = true,
+  showSkill,
 }: CardProps) {
   const skillColors = {
     "Бизнес и карьера": "#EBE5C5",
@@ -54,6 +54,12 @@ export function Card({
 
     return categoryName;
   }
+  function getShowSkills() {
+    if (showSkill) {
+      return learnskills.length;
+    }
+    return 2;
+  }
   return (
     <div className={`${styles.card} ${!hasProfile ? styles.cardProfile : ""}`}>
       <UserInfo
@@ -66,7 +72,7 @@ export function Card({
         <div className={styles.teachskills}>
           <strong className={styles.titles}>Может научить:</strong>
           <div className={styles.skills}>
-            {teachskills?.slice(0, 2).map((el) => (
+            {teachskills?.slice(0, getShowSkills()).map((el) => (
               <div
                 className={styles.skill}
                 style={{
@@ -77,20 +83,23 @@ export function Card({
                 {el}
               </div>
             ))}
-            {learnskills?.length > 2 && (
+            {teachskills?.length > 2 && (
               <div
                 className={styles.skill}
                 style={{ backgroundColor: "#E8ECF7" }}
               >
-                +{learnskills.length - 2}
+                +{teachskills.length - 2}
               </div>
             )}
           </div>
         </div>
         <div className={styles.learnskills}>
           <strong className={styles.titles}>Хочет научиться:</strong>
-          <div className={styles.skills}>
-            {learnskills?.slice(0, 2).map((el) => (
+          <div
+            className={styles.skills}
+            style={{ flexWrap: showSkill ? "wrap" : "nowrap" }}
+          >
+            {learnskills?.slice(0, getShowSkills()).map((el) => (
               <div
                 className={styles.skill}
                 style={{
@@ -101,7 +110,7 @@ export function Card({
                 {el}
               </div>
             ))}
-            {learnskills?.length > 2 && (
+            {learnskills?.length > 2 && !showSkill && (
               <div
                 className={styles.skill}
                 style={{ backgroundColor: "#E8ECF7" }}

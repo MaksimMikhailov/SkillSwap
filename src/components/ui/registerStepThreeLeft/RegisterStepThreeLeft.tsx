@@ -4,6 +4,9 @@ import { Selector } from "../../../shared/ui/selector";
 import { Input } from "../input";
 import { useRef, useState, type FormEvent } from "react";
 import * as yup from "yup";
+import { getSubCategoryOption } from "../../../shared/lib/helpers";
+import type { RootState } from "../../../services/store";
+import { useSelector } from "react-redux";
 export interface ISkill {
   nameSkill: string;
   categorySkill: string;
@@ -24,6 +27,7 @@ export function RegisterStepThreeLeft({
   const [categorySkill, setCategorySkill] = useState("");
   const [subCategorySkill, setSubCategorySkill] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
   const schema = yup.object({
     nameSkill: yup.string().required("Введите имя навыка"),
     categorySkill: yup.string().required("Введите категорию навыка"),
@@ -54,32 +58,34 @@ export function RegisterStepThreeLeft({
       }
     }
   }
-
+  const { category } = useSelector((state: RootState) => state.user);
   return (
     <form onSubmit={handleSubmit}>
       <Input
         label="Название навыка"
         type="text"
         placeHolder="Введите название вашего навыка"
-        value={nameSkill}
         onchange={setNameSkill}
+        value={nameSkill}
         textError={error.nameSkill || ""}
         error={!!error.nameSkill}
       />
 
       <Selector
         label="Категория навыка"
-        options={[]}
+        options={getSubCategoryOption(category)}
         placeHolder="Выберите категорию навыка"
-        value="dsa"
+        onChange={setCategorySkill}
+        value={categorySkill}
         textError={error.categorySkill || ""}
         error={!!error.categorySkill}
       />
       <Selector
         label="Подкатегория навыка"
-        options={[]}
+        options={getSubCategoryOption(category)}
         placeHolder="Выберите подкатегорию навыка"
-        value="dsa"
+        onChange={setSubCategorySkill}
+        value={subCategorySkill}
         textError={error.subCategorySkill || ""}
         error={!!error.subCategorySkill}
       />
@@ -91,6 +97,10 @@ export function RegisterStepThreeLeft({
           id="decription"
           placeholder="Коротко опишите, чему можете научить"
           className={styles.description}
+          onInput={(event) => {
+            setDescription(event.currentTarget.value);
+          }}
+          value={description}
         ></textarea>
       </div>
       <div
@@ -102,7 +112,19 @@ export function RegisterStepThreeLeft({
         <p className={styles.selectText}>
           Перетащите или выберите изображения навыка
         </p>
-        <input type="file" accept="image/*" ref={inputRef} hidden />
+        <input
+          type="file"
+          accept="image/*"
+          ref={inputRef}
+          hidden
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => setImage(String(reader.result));
+            reader.readAsDataURL(file);
+          }}
+        />
         <div className={styles.inputFile}>
           <img src={galleryAdd} alt="" />
           <p>Выбрать изображения</p>

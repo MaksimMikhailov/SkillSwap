@@ -153,6 +153,7 @@ export const SkillPage = () => {
           teachskills={cardInfo.teachskills}
           description={skillData?.author.about}
           hasProfile={false}
+          showSkill
         />
         <div className={styles.wrapProfile}>
           <div className={styles.icons}>
@@ -219,8 +220,8 @@ export const SkillPage = () => {
                 <img src={arrow} alt="" />
               </button>
             )}
-            {similarSkills.slice(skip, skip + 4).map((el, index) => (
-              <Card {...el} id={index.toString()} isHeartDisplay />
+            {similarSkills.slice(skip, skip + 4).map((el) => (
+              <Card {...el} isHeartDisplay />
             ))}
             {similarSkills.length > skip + 4 && similarSkills.length > 4 && (
               <button
