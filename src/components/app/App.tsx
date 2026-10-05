@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import { AppHeader } from "../ui/app-header";
 import "./styles/global.css";
 import { routes } from "../../shared/lib/constants";
 import { AuthPage } from "../../pages/authPage";
@@ -9,10 +8,10 @@ import { RegisterPage } from "../../pages/registerPage";
 
 import { NotFoundPage } from "../../pages/notFoundPage";
 import { Container } from "../ui/container";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { ProtectedRoute } from "../protectedRoute";
-import type { AppDispatch, RootState } from "../../services/store";
+import type { AppDispatch } from "../../services/store";
 import { SkillPage } from "../../pages/profilePage";
 import { getSkills } from "../../services/store/slice/skillsSlice";
 import {
@@ -23,7 +22,6 @@ import {
 import { useEffect } from "react";
 
 function App() {
-  // const isAuth = useSelector((store: RootState) => store.auth.IsAuth);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getSkills());

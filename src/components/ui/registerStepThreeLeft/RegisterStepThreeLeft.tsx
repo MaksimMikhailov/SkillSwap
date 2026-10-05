@@ -4,9 +4,14 @@ import { Selector } from "../../../shared/ui/selector";
 import { Input } from "../input";
 import { useRef, useState, type FormEvent } from "react";
 import * as yup from "yup";
-import { getSubCategoryOption } from "../../../shared/lib/helpers";
+import {
+  getCategoryOption,
+  getSubCategoryOption,
+} from "../../../shared/lib/helpers";
 import type { RootState } from "../../../services/store";
 import { useSelector } from "react-redux";
+import type { Option } from "../../../shared/ui/selector/Selector";
+
 export interface ISkill {
   nameSkill: string;
   categorySkill: string;
@@ -17,6 +22,7 @@ interface IRegisterStepThreeLeftProps {
   onBack: () => void;
   onSubmit: (value: ISkill) => void;
 }
+
 export function RegisterStepThreeLeft({
   onBack,
   onSubmit,
@@ -28,6 +34,10 @@ export function RegisterStepThreeLeft({
   const [subCategorySkill, setSubCategorySkill] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const [subCategory, setSubCategory] = useState<string[]>([]);
+  const [userCategory, setCategory] = useState<string[]>([]);
+
+  const { category } = useSelector((state: RootState) => state.user);
   const schema = yup.object({
     nameSkill: yup.string().required("Введите имя навыка"),
     categorySkill: yup.string().required("Введите категорию навыка"),
@@ -58,7 +68,29 @@ export function RegisterStepThreeLeft({
       }
     }
   }
-  const { category } = useSelector((state: RootState) => state.user);
+
+  const selectorCategoryies = userCategory.map(
+    (itemuser) =>
+      category.find((itemcategory) => itemcategory.id === itemuser)?.name || "",
+  );
+  const selectorSubCategory = userCategory.reduce((acc, id) => {
+    const currentCategory = category.find(
+      (item) => item.id === id,
+    )?.subcategories;
+    if (currentCategory) {
+      currentCategory.forEach((el) => {
+        const subCategory = { label: el.name, value: el.id };
+        acc.push(subCategory);
+      });
+    }
+    return acc;
+  }, [] as Option[]);
+  const sub = category.flatMap((el) => el.subcategories);
+  const selectorSubCategoryies = subCategory.map(
+    (itemuser) =>
+      sub.find((itemcategory) => itemcategory.id === itemuser)?.name || "",
+  );
+
   return (
     <form onSubmit={handleSubmit}>
       <Input
@@ -73,21 +105,25 @@ export function RegisterStepThreeLeft({
 
       <Selector
         label="Категория навыка"
-        options={getSubCategoryOption(category)}
+        options={getCategoryOption(category)}
         placeHolder="Выберите категорию навыка"
-        onChange={setCategorySkill}
-        value={categorySkill}
-        textError={error.categorySkill || ""}
-        error={!!error.categorySkill}
+        onChange={setCategory}
+        value={selectorCategoryies}
+        textError={""}
+        error={false}
+        multiPlay
+        selectorCategories={selectorCategoryies}
       />
       <Selector
         label="Подкатегория навыка"
-        options={getSubCategoryOption(category)}
+        options={selectorSubCategory}
         placeHolder="Выберите подкатегорию навыка"
-        onChange={setSubCategorySkill}
-        value={subCategorySkill}
-        textError={error.subCategorySkill || ""}
-        error={!!error.subCategorySkill}
+        onChange={setSubCategory}
+        value={selectorSubCategoryies}
+        textError={""}
+        error={false}
+        multiPlay
+        selectorCategories={selectorSubCategoryies}
       />
       <div className={styles.wraps}>
         <label htmlFor="decription" className={styles.label}>
@@ -112,6 +148,7 @@ export function RegisterStepThreeLeft({
         <p className={styles.selectText}>
           Перетащите или выберите изображения навыка
         </p>
+        {image && <img src={image} alt="" />}
         <input
           type="file"
           accept="image/*"

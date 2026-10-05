@@ -1,6 +1,6 @@
 import styles from "./card.module.css";
 import { UserInfo } from "../userInfo";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { routes } from "../../../shared/lib/constants";
 import type { RootState } from "../../../services/store";
 import { useSelector } from "react-redux";
@@ -17,7 +17,7 @@ interface CardProps {
   teachskills: string[];
   learnskills: string[];
   likesCount?: number;
-  id: string;
+  id?: string;
   description?: string;
   isHeartDisplay?: boolean;
   showSkill?: boolean;
@@ -121,7 +121,7 @@ export function Card({
           </div>
         </div>
       </div>
-      {hasProfile && (
+      {hasProfile && id && (
         <Link
           to={`${routes.skill.replace(":id", id)}`}
           className={styles.button}

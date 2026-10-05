@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./like.module.css";
 import like from "../../../shared/icon/assets/like.svg";
 import likeActive from "../../../shared/icon/assets/State=Active.svg";

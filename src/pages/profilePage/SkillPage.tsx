@@ -1,5 +1,4 @@
 import styles from "./skillPage.module.css";
-import image from "../../shared/icon/assets/Image.png";
 import share from "../../shared/icon/assets/share.svg";
 import moreSquare from "../../shared/icon/assets/more-square.svg";
 import arrow from "../../shared/icon/assets/chevron-right.svg";
@@ -104,31 +103,33 @@ export const SkillPage = () => {
   }
 
   function GetCardsInfo(skills: ISkills[]) {
-    return skills.map((skill) => {
-      const author = user.find((el) => el.id === skill.authorId);
-      if (!author) return;
-      const authorCity = city.find((el) => el.id === author.cityId)?.name;
+    return skills
+      .map((skill) => {
+        const author = user.find((el) => el.id === skill.authorId);
+        if (!author) return;
+        const authorCity = city.find((el) => el.id === author.cityId)?.name;
 
-      const teachSkillsCategory = category.find(
-        (el) => el.id === skill.categoryId,
-      );
-      const teachSkills = teachSkillsCategory?.subcategories.find(
-        (el) => el.id === skill.subcategoryId,
-      );
-      return {
-        likesCount: skill.likesCount,
-        userInfo: {
-          name: author.name,
-          image: author.avatarUrl,
-          age: author.age,
-          city: authorCity as string,
-        },
-        id: skill.id,
-        learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
-        teachskills: [teachSkills?.name],
-        category: mapCategoryNames(author.learnCategoryIds, category),
-      };
-    });
+        const teachSkillsCategory = category.find(
+          (el) => el.id === skill.categoryId,
+        );
+        const teachSkills = teachSkillsCategory?.subcategories.find(
+          (el) => el.id === skill.subcategoryId,
+        );
+        return {
+          likesCount: skill.likesCount,
+          userInfo: {
+            name: author.name,
+            image: author.avatarUrl,
+            age: author.age,
+            city: authorCity ?? "",
+          },
+          id: skill.id,
+          learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
+          teachskills: teachSkills ? [teachSkills.name] : [],
+          category: mapCategoryNames(author.learnCategoryIds, category),
+        };
+      })
+      .filter((card) => card !== undefined);
   }
   function sortSkillsCategory() {
     const skillsUser = skills.find((el) => el.id === id);

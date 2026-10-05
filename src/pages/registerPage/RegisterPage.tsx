@@ -11,7 +11,6 @@ import { RegisterStepRight } from "../../components/ui/registerStepOneRight";
 import LigthBulb from "../../shared/icon/assets/light-bulb.svg";
 import UserInfo from "../../shared/icon/assets/user info.svg";
 import SchoolBoard from "../../shared/icon/assets/school-board.svg";
-import { useState } from "react";
 import type { IInfo } from "../../components/ui/registerStepTwoLeft/RegisterStepTwoLeft";
 import type { ISkill } from "../../components/ui/registerStepThreeLeft/RegisterStepThreeLeft";
 export interface IAuth {
@@ -21,22 +20,19 @@ export interface IAuth {
 export const RegisterPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const stateStep = parseStep(searchParams.get("step"));
-  const [auth, setAuth] = useState<IAuth | null>(null);
-  const [info, setInfo] = useState<IInfo | null>(null);
-  const [skill, setSkill] = useState<ISkill | null>(null);
   function goToStep(step: Steps) {
     setSearchParams({ step: String(step) });
   }
-  function submitAuth(value: IAuth) {
-    setAuth(value);
+  function submitAuth(_value: IAuth) {
+    void _value;
     handleNext();
   }
-  function submitInfo(value: IInfo) {
-    setInfo(value);
+  function submitInfo(_value: IInfo) {
+    void _value;
     handleNext();
   }
-  function submitSkill(value: ISkill) {
-    setSkill(value);
+  function submitSkill(_value: ISkill) {
+    void _value;
   }
   function handleNext() {
     goToStep((stateStep + 1) as Steps);

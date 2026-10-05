@@ -6,12 +6,14 @@ import { useRef, useState, type FormEvent } from "react";
 import { Selector } from "../../../shared/ui/selector";
 
 import * as yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import type { RootState } from "../../../services/store";
 import {
   getCategoryOption,
   getSubCategoryOption,
 } from "../../../shared/lib/helpers";
+import type { Option } from "../../../shared/ui/selector/Selector";
+
 export interface IInfo {
   name: string;
   date: string;
@@ -36,8 +38,9 @@ export function RegisterStepTwoLeft({
   const [date, setDate] = useState("");
   const [gender, setGender] = useState("");
   const [userCity, setCity] = useState("");
-  const [subCategory, setSubCategory] = useState("");
-  const [userCategory, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState<string[]>([]);
+  const [userCategory, setCategory] = useState<string[]>([]);
+
   const schema = yup.object({
     name: yup.string().required("Введите имя"),
     date: yup.string().required("Введите дату"),
@@ -48,6 +51,27 @@ export function RegisterStepTwoLeft({
     image: yup.string().required("Выберите изображение"),
   });
   const { category, city } = useSelector((state: RootState) => state.user);
+  const selectorCategoryies = userCategory.map(
+    (itemuser) =>
+      category.find((itemcategory) => itemcategory.id === itemuser)?.name || "",
+  );
+  const selectorSubCategory = userCategory.reduce((acc, id) => {
+    const currentCategory = category.find(
+      (item) => item.id === id,
+    )?.subcategories;
+    if (currentCategory) {
+      currentCategory.forEach((el) => {
+        const subCategory = { label: el.name, value: el.id };
+        acc.push(subCategory);
+      });
+    }
+    return acc;
+  }, [] as Option[]);
+  const sub = category.flatMap((el) => el.subcategories);
+  const selectorSubCategoryies = subCategory.map(
+    (itemuser) =>
+      sub.find((itemcategory) => itemcategory.id === itemuser)?.name || "",
+  );
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -155,18 +179,22 @@ export function RegisterStepTwoLeft({
         options={getCategoryOption(category)}
         placeHolder="Выберите категорию"
         onChange={setCategory}
-        value={userCategory}
+        value={selectorCategoryies}
         textError={error.category || ""}
         error={!!error.category}
+        multiPlay
+        selectorCategories={selectorCategoryies}
       />
       <Selector
         label="Подкатегория навыка, которому хотите научиться"
-        options={getSubCategoryOption(category)}
+        options={selectorSubCategory}
         placeHolder="Выберите подкатегорию"
         onChange={setSubCategory}
-        value={subCategory}
+        value={selectorSubCategoryies}
         textError={error.subCategory || ""}
         error={!!error.subCategory}
+        multiPlay
+        selectorCategories={selectorSubCategoryies}
       />
       <div className={styles.btnWrap}>
         <button className={styles.btnBack} type="button" onClick={onBack}>

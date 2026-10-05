@@ -28,7 +28,12 @@ export function AppHeader() {
           <img src={chevronDown}></img>
         </div>
       </nav>
-      <Input onchange={setValue} placeholder="Искать навык" type="search" />
+      <Input
+        onchange={setValue}
+        value={value}
+        placeholder="Искать навык"
+        type="search"
+      />
       {!isAuth ? (
         <div className={styles.wrapBtn}>
           <button>
