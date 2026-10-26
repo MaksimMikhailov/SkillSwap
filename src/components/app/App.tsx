@@ -8,10 +8,10 @@ import { RegisterPage } from "../../pages/registerPage";
 
 import { NotFoundPage } from "../../pages/notFoundPage";
 import { Container } from "../ui/container";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ProtectedRoute } from "../protectedRoute";
-import type { AppDispatch } from "../../services/store";
+import type { AppDispatch, RootState } from "../../services/store";
 import { SkillPage } from "../../pages/profilePage";
 import { getSkills } from "../../services/store/slice/skillsSlice";
 import {
@@ -20,6 +20,8 @@ import {
   getСity,
 } from "../../services/store/slice/userSlice";
 import { useEffect } from "react";
+import { actionGetAuth } from "../../services/store/slice/authSlice";
+import { ProfilePage } from "../../pages/skillPage";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,23 +30,25 @@ function App() {
     dispatch(getUsers());
     dispatch(getСity());
     dispatch(getCategory());
+    dispatch(actionGetAuth());
   }, [dispatch]);
-  const isAuth = true;
+  const isAuth = useSelector((state: RootState) => state.auth.IsAuth);
   return (
     <>
       <Routes>
         <Route element={<Container />}>
           <Route element={<ProtectedRoute isAuth={isAuth} />}>
-            <Route path={routes.skill} element={<SkillPage />} />
             <Route path={routes.favorite} element={<FavoritePage />} />
-          </Route>
-          <Route element={<ProtectedRoute isAuth={isAuth} onlyOnAuth />}>
-            <Route path={routes.auth} element={<AuthPage />} />
+            <Route path={routes.profile} element={<ProfilePage />} />
           </Route>
           <Route path={routes.main} element={<MainPage />} />
+          <Route path={routes.skill} element={<SkillPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path={routes.register} element={<RegisterPage />} />
+        <Route element={<ProtectedRoute isAuth={isAuth} onlyOnAuth />}>
+          <Route path={routes.register} element={<RegisterPage />} />
+          <Route path={routes.auth} element={<AuthPage />} />
+        </Route>
       </Routes>
     </>
   );

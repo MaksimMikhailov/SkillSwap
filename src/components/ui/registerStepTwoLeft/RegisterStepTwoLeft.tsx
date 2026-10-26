@@ -82,8 +82,9 @@ export function RegisterStepTwoLeft({
           date,
           gender,
           city: userCity,
-          category: userCategory,
-          subCategory,
+          category: userCategory.join(","),
+          subCategory: subCategory.join(","),
+          image,
         },
         { abortEarly: false },
       );
@@ -179,7 +180,7 @@ export function RegisterStepTwoLeft({
         options={getCategoryOption(category)}
         placeHolder="Выберите категорию"
         onChange={setCategory}
-        value={selectorCategoryies}
+        value={userCategory}
         textError={error.category || ""}
         error={!!error.category}
         multiPlay
@@ -190,7 +191,7 @@ export function RegisterStepTwoLeft({
         options={selectorSubCategory}
         placeHolder="Выберите подкатегорию"
         onChange={setSubCategory}
-        value={selectorSubCategoryies}
+        value={subCategory}
         textError={error.subCategory || ""}
         error={!!error.subCategory}
         multiPlay

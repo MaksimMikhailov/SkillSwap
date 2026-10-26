@@ -3,13 +3,16 @@ interface InputProps {
   type: "text" | "password" | "email";
   placeHolder: string;
   label: string;
-  value: string;
+  value?: string;
   error?: boolean;
   textError: string;
   rightIcon?: string;
   setStateIcon?: () => void;
-  onchange: (value: string) => void;
+  onchange: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  maxLength?: number;
+  name?: string;
 }
+
 export function Input({
   type,
   placeHolder,
@@ -20,6 +23,8 @@ export function Input({
   rightIcon,
   setStateIcon,
   onchange,
+  maxLength,
+  name,
 }: InputProps) {
   return (
     <div className={styles.wrap}>
@@ -34,8 +39,10 @@ export function Input({
           value={value}
           id={type}
           onChange={(event) => {
-            onchange(event.target.value);
+            onchange(event);
           }}
+          maxLength={maxLength}
+          name={name}
         />
         {rightIcon && (
           <span aria-hidden className={styles.rightIcon} onClick={setStateIcon}>

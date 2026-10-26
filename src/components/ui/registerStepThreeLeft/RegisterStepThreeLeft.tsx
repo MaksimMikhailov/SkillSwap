@@ -4,13 +4,11 @@ import { Selector } from "../../../shared/ui/selector";
 import { Input } from "../input";
 import { useRef, useState, type FormEvent } from "react";
 import * as yup from "yup";
-import {
-  getCategoryOption,
-  getSubCategoryOption,
-} from "../../../shared/lib/helpers";
+import { getCategoryOption } from "../../../shared/lib/helpers";
 import type { RootState } from "../../../services/store";
 import { useSelector } from "react-redux";
 import type { Option } from "../../../shared/ui/selector/Selector";
+import type { IInfoUser } from "../../../pages/registerPage/RegisterPage";
 
 export interface ISkill {
   nameSkill: string;
@@ -20,7 +18,7 @@ export interface ISkill {
 }
 interface IRegisterStepThreeLeftProps {
   onBack: () => void;
-  onSubmit: (value: ISkill) => void;
+  onSubmit: (value: IInfoUser) => void;
 }
 
 export function RegisterStepThreeLeft({
@@ -30,18 +28,17 @@ export function RegisterStepThreeLeft({
   const [error, setError] = useState<Partial<ISkill>>({});
   const inputRef = useRef<HTMLInputElement>(null);
   const [nameSkill, setNameSkill] = useState("");
-  const [categorySkill, setCategorySkill] = useState("");
-  const [subCategorySkill, setSubCategorySkill] = useState("");
+
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<string[]>([]);
   const [subCategory, setSubCategory] = useState<string[]>([]);
   const [userCategory, setCategory] = useState<string[]>([]);
-
   const { category } = useSelector((state: RootState) => state.user);
+  const [isDragActive, setIsDragActive] = useState(false);
   const schema = yup.object({
-    nameSkill: yup.string().required("Введите имя навыка"),
-    categorySkill: yup.string().required("Введите категорию навыка"),
-    subCategorySkill: yup.string().required("Введите подкатегорию навыка"),
+    title: yup.string().required("Введите имя навыка"),
+    category: yup.string().required("Введите категорию навыка"),
+    subCategory: yup.string().required("Введите подкатегорию навыка"),
     description: yup.string().required("Введите описание"),
   });
   async function handleSubmit(event: FormEvent) {
@@ -49,14 +46,15 @@ export function RegisterStepThreeLeft({
     try {
       const validate = await schema.validate(
         {
-          nameSkill: "",
-          categorySkill: "",
-          subCategorySkill: "",
-          description: "",
+          title: nameSkill,
+          category: selectorCategoryies[0],
+          subCategory: selectorSubCategoryies[0],
+          description,
+          images: image,
         },
         { abortEarly: false },
       );
-      onSubmit(validate as ISkill);
+      onSubmit(validate as IInfoUser);
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         const nextErrors: Partial<ISkill> = {};
@@ -68,7 +66,23 @@ export function RegisterStepThreeLeft({
       }
     }
   }
-
+  function addImage(file: FileList) {
+    const imageFiles = Array.from(file).filter((el) =>
+      el.type.startsWith("image"),
+    );
+    const readers = imageFiles.map(
+      (el) =>
+        new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result));
+          reader.onerror = () => reject(reader.error);
+          reader.readAsDataURL(el);
+        }),
+    );
+    Promise.all(readers).then((el) => {
+      setImage((prev) => [...prev, ...el.filter((el) => !prev.includes(el))]);
+    });
+  }
   const selectorCategoryies = userCategory.map(
     (itemuser) =>
       category.find((itemcategory) => itemcategory.id === itemuser)?.name || "",
@@ -90,7 +104,7 @@ export function RegisterStepThreeLeft({
     (itemuser) =>
       sub.find((itemcategory) => itemcategory.id === itemuser)?.name || "",
   );
-
+  console.log(selectorSubCategoryies);
   return (
     <form onSubmit={handleSubmit}>
       <Input
@@ -101,16 +115,16 @@ export function RegisterStepThreeLeft({
         value={nameSkill}
         textError={error.nameSkill || ""}
         error={!!error.nameSkill}
+        maxLength={12}
       />
-
       <Selector
         label="Категория навыка"
         options={getCategoryOption(category)}
         placeHolder="Выберите категорию навыка"
         onChange={setCategory}
-        value={selectorCategoryies}
-        textError={""}
-        error={false}
+        value={userCategory}
+        textError={error.categorySkill || ""}
+        error={!!error.categorySkill}
         multiPlay
         selectorCategories={selectorCategoryies}
       />
@@ -119,9 +133,9 @@ export function RegisterStepThreeLeft({
         options={selectorSubCategory}
         placeHolder="Выберите подкатегорию навыка"
         onChange={setSubCategory}
-        value={selectorSubCategoryies}
-        textError={""}
-        error={false}
+        value={subCategory}
+        textError={error.subCategorySkill || ""}
+        error={!!error.subCategorySkill}
         multiPlay
         selectorCategories={selectorSubCategoryies}
       />
@@ -137,29 +151,49 @@ export function RegisterStepThreeLeft({
             setDescription(event.currentTarget.value);
           }}
           value={description}
+          maxLength={250}
         ></textarea>
+        {error.description && (
+          <p className={styles.error}>{error.description}</p>
+        )}
       </div>
       <div
-        className={styles.selectImage}
+        className={`${styles.selectImage} ${isDragActive ? styles.dragActive : ""}`}
         onClick={() => {
           inputRef.current?.click();
+        }}
+        onDragEnter={(event) => {
+          event.preventDefault();
+          setIsDragActive(true);
+        }}
+        onDragLeave={(event) => {
+          if (
+            !event?.currentTarget.contains(event.relatedTarget as Node | null)
+          )
+            setIsDragActive(false);
+        }}
+        onDrop={(event) => {
+          event.preventDefault();
+          setIsDragActive(false);
+          addImage(event.dataTransfer.files);
+        }}
+        onDragOver={(event) => {
+          event.preventDefault();
         }}
       >
         <p className={styles.selectText}>
           Перетащите или выберите изображения навыка
         </p>
-        {image && <img src={image} alt="" />}
+        <div className={styles.wrapsImages}>
+          {!!image.length && image.map((el) => <img src={el} />)}
+        </div>
         <input
           type="file"
           accept="image/*"
           ref={inputRef}
           hidden
           onChange={(event) => {
-            const file = event.target.files?.[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = () => setImage(String(reader.result));
-            reader.readAsDataURL(file);
+            if (event.target.files) addImage(event.target.files);
           }}
         />
         <div className={styles.inputFile}>

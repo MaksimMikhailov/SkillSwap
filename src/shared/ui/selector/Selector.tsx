@@ -9,6 +9,7 @@ interface CommonInputProps {
   error?: boolean;
   textError: string;
   selectorCategories?: string[];
+  name?: string;
 }
 type InputProps = CommonInputProps &
   (
@@ -37,9 +38,10 @@ export function Selector({
   multiPlay,
   selectorCategories,
   onChange,
+  name,
 }: InputProps) {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(value);
+
   return (
     <div className={styles.wraps}>
       <label htmlFor="gender" className={styles.label}>
@@ -90,9 +92,15 @@ export function Selector({
         <>
           <div className={styles.field} onClick={() => setIsOpen(!isOpen)}>
             <select
-              onChange={(event) => onChange(event.target.value)}
+              onChange={(event) =>
+                onChange({
+                  name: event.target.name,
+                  value: event.target.value,
+                })
+              }
               id="gender"
               className={styles.selected}
+              name={name}
             >
               {<option value={placeHolder}>{placeHolder}</option>}
               {options.map((el) => (
@@ -103,9 +111,9 @@ export function Selector({
               <img src={isOpen ? chevronUp : chevronDown} alt="" />
             </span>
           </div>
-          {error && <p className={styles.error}>{textError}</p>}
         </>
       )}
+      {error && <p className={styles.error}>{textError}</p>}
     </div>
   );
 }

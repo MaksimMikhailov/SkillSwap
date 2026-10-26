@@ -152,11 +152,14 @@ form {
   border: 1px dashed #69735d;
   border-radius: 12px;
   cursor: pointer;
+  transition: all 0.3s linear;
 }
 .selectImage:hover {
   background-color: #dbdbdb;
-  transition: all 0.3s linear;
   opacity: 0.5;
+}
+.dragActive {
+  background-color: #dbdbdb;
 }
 .selectText {
   font: 400 16px/150% var(--font-Roboto-Regular);
@@ -176,4 +179,24 @@ form {
   font: 400 16px/150% var(--font-Roboto-Regular);
   letter-spacing: 0.02em;
   color: #508826;
+}
+.wrapsImages {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+}
+.error {
+  font-family: var(--font-Roboto-Regular);
+  color: #bf3920;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 133%;
+  letter-spacing: 0.02em;
 }
