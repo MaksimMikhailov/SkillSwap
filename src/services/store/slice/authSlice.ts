@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IAuth {
+  login: string;
   name: string;
-  surname: string;
-  token: string;
+  password: string;
   image: string;
+  date: string;
+  gender: string;
+  city: string;
+  description: string;
 }
 interface InitialState {
   auth: IAuth | null;
@@ -19,16 +23,18 @@ const authSlice = createSlice({
   name: "skilss",
   initialState,
   reducers: {
-    setAuth(state, action) {
+    actionSetAuth(state, action) {
       state.auth = action.payload;
-      localStorage.setItem("auth", JSON.stringify(action.payload));
+      localStorage.setItem("userInfo", JSON.stringify(action.payload));
+      state.IsAuth = true;
     },
-    getAuth(state) {
-      state.auth = localStorage.getItem("auth")
-        ? JSON.parse(localStorage.getItem("auth")!)
+    actionGetAuth(state) {
+      state.auth = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo")!)
         : null;
+      if (state.auth) state.IsAuth = true;
     },
   },
 });
 export default authSlice.reducer;
-export const { setAuth, getAuth } = authSlice.actions;
+export const { actionSetAuth, actionGetAuth } = authSlice.actions;

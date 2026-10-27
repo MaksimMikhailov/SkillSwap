@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import HeaderLogo from "../../../shared/icon/assets/HeaderLogo.svg";
+import Logout from "../../../shared/icon/assets/logout.svg";
 import like from "../../../shared/icon/assets/like.svg";
 import notification from "../../../shared/icon/assets/notification.svg";
 import chevronDown from "../../../shared/icon/assets/chevron-down.svg";
@@ -13,7 +14,8 @@ import type { RootState } from "../../../services/store";
 export function AppHeader() {
   const isAuth = useSelector((store: RootState) => store.auth.IsAuth);
   const auth = useSelector((store: RootState) => store.auth.auth);
-
+  const [modalProf, setModalProf] = useState(false);
+  console.log(isAuth);
   const [value, setValue] = useState("");
   return (
     <header className={styles.header}>
@@ -49,23 +51,49 @@ export function AppHeader() {
           </div>
         </div>
       ) : (
-        <div className={styles.wrapRigth}>
-          <div className={styles.wrapIcon}>
-            <button>
-              <img src={moon} alt="" />
-            </button>
-            <button>
-              <img src={notification} alt="" />
-            </button>
-            <NavLink to="/">
-              <img src={like} alt="" />
-            </NavLink>
+        <>
+          <div className={styles.wrapRigth}>
+            <div className={styles.wrapIcon}>
+              <button>
+                <img src={moon} alt="" />
+              </button>
+              <button>
+                <img src={notification} alt="" />
+              </button>
+              <NavLink to="/">
+                <img src={like} alt="" />
+              </NavLink>
+            </div>
+            <div
+              className={styles.wrapAvatar}
+              onClick={() => setModalProf(!modalProf)}
+            >
+              <p>{auth?.name}</p>
+              <img src={auth?.image} alt="" />
+            </div>
           </div>
-          <div>
-            <p>{auth?.name}</p>
-            <img src={auth?.name} alt="" />
-          </div>
-        </div>
+          {modalProf && (
+            <div className={styles.modal}>
+              <Link
+                to={routes.profile}
+                className={styles.profile}
+                onClick={() => {
+                  setModalProf(false);
+                }}
+              >
+                Личный кабинет
+              </Link>
+              <button
+                className={styles.logout}
+                onClick={() => {
+                  setModalProf(false);
+                }}
+              >
+                Выйти из аккаунта <img src={Logout} alt="" />
+              </button>
+            </div>
+          )}
+        </>
       )}
     </header>
   );

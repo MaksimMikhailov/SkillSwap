@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
   gap: 32px;
   padding: 40px 36px 30px;
   font: 400 16px/150% var(--font-Roboto-Regular);
@@ -64,4 +65,51 @@
 
 .wrapNav {
   gap: 4px;
+}
+.wrapAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+.modal {
+  position: absolute;
+  right: 36px;
+  top: 104px;
+  border: 1px solid #b2b9a9;
+  border-radius: 12px;
+  padding: 40px;
+  width: 260px;
+  height: 152px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  justify-content: center;
+}
+.profile {
+  font-family: var(--font-Roboto-Medium);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+.logout {
+  font-family: var(--font-Roboto-Medium);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  display: flex;
+  gap: 8px;
 }

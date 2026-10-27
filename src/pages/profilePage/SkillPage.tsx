@@ -12,6 +12,11 @@ import { useParams } from "react-router-dom";
 import type { RootState } from "../../services/store";
 import type { ISkills } from "../../services/store/slice/skillsSlice";
 import type { ICategory } from "../../services/store/slice/userSlice";
+import { OrderModal } from "../../components/modals/orderModal";
+import done from "../../shared/icon/assets/Done.svg";
+import notification from "../../shared/icon/assets/notificationModals.svg";
+import userCircle from "../../shared/icon/assets/user-circle.svg";
+
 export interface profileData {
   userInfo: IUserInfo;
   teachskills: Skills[];
@@ -24,11 +29,12 @@ export const SkillPage = () => {
     (state: RootState) => state.user,
   );
   const skillData = getSkillData();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [count, setCount] = useState(0);
   const [skip, setSkip] = useState(0);
   const [images, setImages] = useState(skillData?.skillsUser.images!);
-
+  const isAuth = useSelector((state: RootState) => state.auth.IsAuth);
   if (loading) return <>loading</>;
   const mapCategoryNames = (ids: string[], categories: ICategory[]) =>
     ids
@@ -124,7 +130,10 @@ export const SkillPage = () => {
             city: authorCity ?? "",
           },
           id: skill.id,
-          learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
+          learnskills: mapSubcategoryNames(
+            author.learnSubcategoryIds,
+            category,
+          ),
           teachskills: teachSkills ? [teachSkills.name] : [],
           category: mapCategoryNames(author.learnCategoryIds, category),
         };
@@ -140,6 +149,28 @@ export const SkillPage = () => {
         el.categoryId === skillsUser.categoryId &&
         el.authorId !== skillsUser.authorId,
     );
+  }
+  function getCurrentModal() {
+    if (isAuth) {
+      return (
+        <OrderModal
+          setisModalOpen={setIsModalOpen}
+          title="Вы предложили обмен"
+          text="Теперь дождитесь подтверждения. Вам придёт уведомление"
+          image={notification}
+        />
+      );
+    } else {
+      return (
+        <OrderModal
+          setisModalOpen={setIsModalOpen}
+          title="Пожалуйста, войдите в аккаунт"
+          text="Присоединяйтесь к SkillSwap и обменивайтесь знаниями и навыками с другими людьми"
+          image={userCircle}
+          isAuth
+        />
+      );
+    }
   }
   const similarSkills = GetCardsInfo(sortSkillsCategory());
   const cardInfo = getCardInfo();
@@ -175,7 +206,14 @@ export const SkillPage = () => {
               <h1 className={styles.title}>{skillData?.skillsUser.title}</h1>
               <p className={styles.link}>{categoryCrumb()}</p>
               <p className={styles.text}>{skillData?.skillsUser.description}</p>
-              <button className={styles.button}>Предложить обмен</button>
+              <button
+                className={styles.button}
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              >
+                Предложить обмен
+              </button>
             </div>
             <div className={styles.wrapper}>
               <button
@@ -237,6 +275,7 @@ export const SkillPage = () => {
           </div>
         </>
       )}
+      {isModalOpen && getCurrentModal()}
     </>
   );
 };
