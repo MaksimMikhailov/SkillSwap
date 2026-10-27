@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IAuth {
+export interface IAuth {
   login: string;
   name: string;
   password: string;

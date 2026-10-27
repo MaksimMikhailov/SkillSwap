@@ -72,7 +72,7 @@ function AuthLeft() {
           <Input
             placeHolder="Введите email"
             type="email"
-            onchange={setMail}
+            onChange={(event) => setMail(event.target.value)}
             label="Email"
             textError={error.login}
             value={mail}
@@ -81,7 +81,7 @@ function AuthLeft() {
           <Input
             placeHolder="Введите ваш пароль"
             type={isPasswordVisible ? "text" : "password"}
-            onchange={setPassword}
+            onChange={(event) => setPassword(event.target.value)}
             label="Пароль"
             textError={error.password}
             value={password}

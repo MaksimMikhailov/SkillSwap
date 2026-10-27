@@ -11,9 +11,10 @@ import galleryEdit from "../../shared/icon/assets/gallery-edit.svg";
 import idea from "../../shared/icon/assets/idea.svg";
 import user from "../../shared/icon/assets/user.svg";
 import { Selector } from "../../shared/ui/selector";
+import type { IAuth } from "../../services/store/slice/authSlice";
 export const ProfilePage = () => {
   const userInfo = useSelector((state: RootState) => state.auth.auth);
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState<IAuth>(userInfo!);
   const { category, city } = useSelector((state: RootState) => state.user);
   const cityOptions = city.map((el) => ({
     value: el.id,
@@ -25,6 +26,9 @@ export const ProfilePage = () => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const { name, value } = event.target;
+    setUserData((prev) => ({ ...prev, [name]: value }));
+  }
+  function changeSelectorValue(name: "gender" | "city", value: string) {
     setUserData((prev) => ({ ...prev, [name]: value }));
   }
   const navigationContent = [
@@ -58,8 +62,9 @@ export const ProfilePage = () => {
               placeHolder="Введите почту"
               type="email"
               textError=""
-              onchange={changeUserData}
-              value={userInfo?.login}
+              name="login"
+              onChange={changeUserData}
+              value={userData.login}
             />
             <button className={styles.changePass}>Изменить пароль</button>
           </div>
@@ -68,8 +73,9 @@ export const ProfilePage = () => {
             placeHolder="Введите имя"
             type="text"
             textError=""
-            onchange={changeUserData}
-            value={userInfo?.name}
+            name="name"
+            onChange={changeUserData}
+            value={userData.name}
           />
           <div className={styles.inputWraps}>
             <div className={styles.inputDate}>
@@ -82,7 +88,8 @@ export const ProfilePage = () => {
                 className={styles.input}
                 id="date"
                 onChange={changeUserData}
-                value={userInfo?.date}
+                value={userData.date}
+                name="date"
               />
             </div>
             <Selector
@@ -92,18 +99,18 @@ export const ProfilePage = () => {
                 { value: "Женский", label: "Женский" },
               ]}
               placeHolder="Не указано"
-              onchange={changeUserData}
-              value={userInfo?.gender || ""}
-              textError={""}
+              onChange={(value) => changeSelectorValue("gender", value)}
+              value={userData.gender}
+              textError=""
             />
           </div>
           <Selector
             label="Город"
             options={cityOptions}
             placeHolder="Не указано"
-            onchange={changeUserData}
-            value={userInfo?.city || ""}
-            textError={""}
+            onChange={(value) => changeSelectorValue("city", value)}
+            value={userData.city}
+            textError=""
           />
           <div className={styles.sectionUnder}>
             <label htmlFor="date" className={styles.label}>
@@ -114,8 +121,9 @@ export const ProfilePage = () => {
               placeholder="Коротко опишите, чему можете научить"
               className={styles.description}
               onChange={changeUserData}
-              value={userInfo?.description || ""}
+              value={userData.description}
               maxLength={250}
+              name="description"
             ></textarea>
             <button className={styles.saveButton} disabled>
               Сохранить
@@ -123,7 +131,7 @@ export const ProfilePage = () => {
           </div>
         </div>
         <div className={styles.avatar}>
-          <img src={userInfo?.image} alt="" className={styles.imgAva} />
+          <img src={userData.image} alt="" className={styles.imgAva} />
           <div className={styles.avatarImage}>
             <img src={galleryEdit} alt="" />
           </div>

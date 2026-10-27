@@ -111,7 +111,7 @@ export function RegisterStepThreeLeft({
         label="Название навыка"
         type="text"
         placeHolder="Введите название вашего навыка"
-        onchange={setNameSkill}
+        onChange={(event) => setNameSkill(event.target.value)}
         value={nameSkill}
         textError={error.nameSkill || ""}
         error={!!error.nameSkill}

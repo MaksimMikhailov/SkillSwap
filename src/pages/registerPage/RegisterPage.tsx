@@ -80,11 +80,17 @@ export const RegisterPage = () => {
               <RegisterModal
                 setIsModalOpen={setIsModalOpen}
                 submitModal={() => {
+                  if(!auth || !info || !skill) return
+
                   const objData = {
-                    login: auth?.login,
-                    password: auth?.password,
-                    image: info?.image,
-                    name: info?.name,
+                    login: auth.login,
+                    password: auth.password,
+                    image: info.image,
+                    name: info.name,
+                    date: info.date,
+                    description: skill.description,
+                    city: info.city,
+                    gender: info.gender
                   };
                   dispatch(actionSetAuth(objData));
                   navigate("/");

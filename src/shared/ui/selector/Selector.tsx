@@ -92,19 +92,17 @@ export function Selector({
         <>
           <div className={styles.field} onClick={() => setIsOpen(!isOpen)}>
             <select
-              onChange={(event) =>
-                onChange({
-                  name: event.target.name,
-                  value: event.target.value,
-                })
-              }
+              value={value}
+              onChange={(event) => onChange(event.target.value)}
               id="gender"
               className={styles.selected}
               name={name}
             >
-              {<option value={placeHolder}>{placeHolder}</option>}
+              <option value="">{placeHolder}</option>
               {options.map((el) => (
-                <option value={el.value}>{el.label}</option>
+                <option value={el.value} key={el.value}>
+                  {el.label}
+                </option>
               ))}
             </select>
             <span aria-hidden className={styles.rightIcon}>

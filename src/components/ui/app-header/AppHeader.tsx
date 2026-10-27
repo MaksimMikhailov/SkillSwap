@@ -31,7 +31,7 @@ export function AppHeader() {
         </div>
       </nav>
       <Input
-        onchange={setValue}
+        onChange={(event) => setValue(event.target.value)}
         value={value}
         placeholder="Искать навык"
         type="search"

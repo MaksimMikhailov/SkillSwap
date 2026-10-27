@@ -130,7 +130,7 @@ export function RegisterStepTwoLeft({
       {error.image && <p className={styles.date}>Выберите изображение</p>}
       <Input
         label="Имя"
-        onchange={setIsNamed}
+        onChange={(event) => setIsNamed(event.target.value)}
         value={IsNamed}
         type="text"
         placeHolder="Введите ваше имя"

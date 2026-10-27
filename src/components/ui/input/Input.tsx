@@ -1,4 +1,5 @@
 import styles from "./input.module.css";
+import type { ChangeEvent } from "react";
 interface InputProps {
   type: "text" | "password" | "email";
   placeHolder: string;
@@ -8,7 +9,7 @@ interface InputProps {
   textError: string;
   rightIcon?: string;
   setStateIcon?: () => void;
-  onchange: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   maxLength?: number;
   name?: string;
 }
@@ -22,7 +23,7 @@ export function Input({
   textError,
   rightIcon,
   setStateIcon,
-  onchange,
+  onChange,
   maxLength,
   name,
 }: InputProps) {
@@ -38,9 +39,7 @@ export function Input({
           className={styles.input}
           value={value}
           id={type}
-          onChange={(event) => {
-            onchange(event);
-          }}
+          onChange={onChange}
           maxLength={maxLength}
           name={name}
         />
