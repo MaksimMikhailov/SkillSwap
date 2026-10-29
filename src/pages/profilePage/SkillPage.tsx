@@ -1,5 +1,4 @@
 import styles from "./skillPage.module.css";
-import image from "../../shared/icon/assets/Image.png";
 import share from "../../shared/icon/assets/share.svg";
 import moreSquare from "../../shared/icon/assets/more-square.svg";
 import arrow from "../../shared/icon/assets/chevron-right.svg";
@@ -13,6 +12,11 @@ import { useParams } from "react-router-dom";
 import type { RootState } from "../../services/store";
 import type { ISkills } from "../../services/store/slice/skillsSlice";
 import type { ICategory } from "../../services/store/slice/userSlice";
+import { OrderModal } from "../../components/modals/orderModal";
+import done from "../../shared/icon/assets/Done.svg";
+import notification from "../../shared/icon/assets/notificationModals.svg";
+import userCircle from "../../shared/icon/assets/user-circle.svg";
+
 export interface profileData {
   userInfo: IUserInfo;
   teachskills: Skills[];
@@ -25,11 +29,12 @@ export const SkillPage = () => {
     (state: RootState) => state.user,
   );
   const skillData = getSkillData();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [count, setCount] = useState(0);
   const [skip, setSkip] = useState(0);
   const [images, setImages] = useState(skillData?.skillsUser.images!);
-
+  const isAuth = useSelector((state: RootState) => state.auth.IsAuth);
   if (loading) return <>loading</>;
   const mapCategoryNames = (ids: string[], categories: ICategory[]) =>
     ids
@@ -104,31 +109,36 @@ export const SkillPage = () => {
   }
 
   function GetCardsInfo(skills: ISkills[]) {
-    return skills.map((skill) => {
-      const author = user.find((el) => el.id === skill.authorId);
-      if (!author) return;
-      const authorCity = city.find((el) => el.id === author.cityId)?.name;
+    return skills
+      .map((skill) => {
+        const author = user.find((el) => el.id === skill.authorId);
+        if (!author) return;
+        const authorCity = city.find((el) => el.id === author.cityId)?.name;
 
-      const teachSkillsCategory = category.find(
-        (el) => el.id === skill.categoryId,
-      );
-      const teachSkills = teachSkillsCategory?.subcategories.find(
-        (el) => el.id === skill.subcategoryId,
-      );
-      return {
-        likesCount: skill.likesCount,
-        userInfo: {
-          name: author.name,
-          image: author.avatarUrl,
-          age: author.age,
-          city: authorCity as string,
-        },
-        id: skill.id,
-        learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
-        teachskills: [teachSkills?.name],
-        category: mapCategoryNames(author.learnCategoryIds, category),
-      };
-    });
+        const teachSkillsCategory = category.find(
+          (el) => el.id === skill.categoryId,
+        );
+        const teachSkills = teachSkillsCategory?.subcategories.find(
+          (el) => el.id === skill.subcategoryId,
+        );
+        return {
+          likesCount: skill.likesCount,
+          userInfo: {
+            name: author.name,
+            image: author.avatarUrl,
+            age: author.age,
+            city: authorCity ?? "",
+          },
+          id: skill.id,
+          learnskills: mapSubcategoryNames(
+            author.learnSubcategoryIds,
+            category,
+          ),
+          teachskills: teachSkills ? [teachSkills.name] : [],
+          category: mapCategoryNames(author.learnCategoryIds, category),
+        };
+      })
+      .filter((card) => card !== undefined);
   }
   function sortSkillsCategory() {
     const skillsUser = skills.find((el) => el.id === id);
@@ -139,6 +149,28 @@ export const SkillPage = () => {
         el.categoryId === skillsUser.categoryId &&
         el.authorId !== skillsUser.authorId,
     );
+  }
+  function getCurrentModal() {
+    if (isAuth) {
+      return (
+        <OrderModal
+          setisModalOpen={setIsModalOpen}
+          title="Вы предложили обмен"
+          text="Теперь дождитесь подтверждения. Вам придёт уведомление"
+          image={notification}
+        />
+      );
+    } else {
+      return (
+        <OrderModal
+          setisModalOpen={setIsModalOpen}
+          title="Пожалуйста, войдите в аккаунт"
+          text="Присоединяйтесь к SkillSwap и обменивайтесь знаниями и навыками с другими людьми"
+          image={userCircle}
+          isAuth
+        />
+      );
+    }
   }
   const similarSkills = GetCardsInfo(sortSkillsCategory());
   const cardInfo = getCardInfo();
@@ -153,6 +185,7 @@ export const SkillPage = () => {
           teachskills={cardInfo.teachskills}
           description={skillData?.author.about}
           hasProfile={false}
+          showSkill
         />
         <div className={styles.wrapProfile}>
           <div className={styles.icons}>
@@ -173,7 +206,14 @@ export const SkillPage = () => {
               <h1 className={styles.title}>{skillData?.skillsUser.title}</h1>
               <p className={styles.link}>{categoryCrumb()}</p>
               <p className={styles.text}>{skillData?.skillsUser.description}</p>
-              <button className={styles.button}>Предложить обмен</button>
+              <button
+                className={styles.button}
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              >
+                Предложить обмен
+              </button>
             </div>
             <div className={styles.wrapper}>
               <button
@@ -219,8 +259,8 @@ export const SkillPage = () => {
                 <img src={arrow} alt="" />
               </button>
             )}
-            {similarSkills.slice(skip, skip + 4).map((el, index) => (
-              <Card {...el} id={index.toString()} isHeartDisplay />
+            {similarSkills.slice(skip, skip + 4).map((el) => (
+              <Card {...el} isHeartDisplay />
             ))}
             {similarSkills.length > skip + 4 && similarSkills.length > 4 && (
               <button
@@ -235,6 +275,7 @@ export const SkillPage = () => {
           </div>
         </>
       )}
+      {isModalOpen && getCurrentModal()}
     </>
   );
 };

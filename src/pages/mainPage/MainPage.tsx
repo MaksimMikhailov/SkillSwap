@@ -58,32 +58,34 @@ export const MainPage = () => {
       .filter((name): name is string => Boolean(name));
 
   function GetCardsInfo(skills: ISkills[]) {
-    return skills.map((skill) => {
-      const author = user.find((el) => el.id === skill.authorId);
-      if (!author) return;
-      const authorCity = city.find((el) => el.id === author.cityId)?.name;
+    return skills
+      .map((skill) => {
+        const author = user.find((el) => el.id === skill.authorId);
+        if (!author) return;
+        const authorCity = city.find((el) => el.id === author.cityId)?.name;
 
-      const teachSkillsCategory = category.find(
-        (el) => el.id === skill.categoryId,
-      );
-      const teachSkills = teachSkillsCategory?.subcategories.find(
-        (el) => el.id === skill.subcategoryId,
-      );
+        const teachSkillsCategory = category.find(
+          (el) => el.id === skill.categoryId,
+        );
+        const teachSkills = teachSkillsCategory?.subcategories.find(
+          (el) => el.id === skill.subcategoryId,
+        );
 
-      return {
-        likesCount: skill.likesCount,
-        userInfo: {
-          name: author.name,
-          image: author.avatarUrl,
-          age: author.age,
-          city: authorCity,
-        },
-        id: skill.id,
-        learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
-        teachskills: [teachSkills?.name],
-        category: mapCategoryNames(author.learnCategoryIds, category),
-      };
-    });
+        return {
+          likesCount: skill.likesCount,
+          userInfo: {
+            name: author.name,
+            image: author.avatarUrl,
+            age: author.age,
+            city: authorCity ?? "",
+          },
+          id: skill.id,
+          learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
+          teachskills: teachSkills ? [teachSkills.name] : [],
+          category: mapCategoryNames(author.learnCategoryIds, category),
+        };
+      })
+      .filter((card) => card !== undefined);
   }
   if (loading) return <div>loading</div>;
   return (
@@ -99,7 +101,7 @@ export const MainPage = () => {
         <div className={styles.mainCards}>
           {GetCardsInfo(popularCount())
             .slice(0, 3)
-            .map((el, index) => (
+            .map((el) => (
               <Card {...el} isHeartDisplay />
             ))}
         </div>
@@ -112,7 +114,7 @@ export const MainPage = () => {
         <div className={styles.mainCards}>
           {GetCardsInfo(dateCount())
             .slice(0, 3)
-            .map((el, index) => (
+            .map((el) => (
               <Card {...el} isHeartDisplay />
             ))}
         </div>
@@ -122,7 +124,7 @@ export const MainPage = () => {
         <div className={styles.mainCards}>
           {GetCardsInfo(skills)
             .slice(0, displayCount)
-            .map((el, index) => (
+            .map((el) => (
               <Card {...el} isHeartDisplay />
             ))}
         </div>

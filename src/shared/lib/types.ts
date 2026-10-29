@@ -5,3 +5,9 @@ export type Skills =
   | "Бизнес-план"
   | "Игра на барабанах"
   | "Реставрация мебели";
+export interface User {
+  login: string;
+  password: string;
+  name: string;
+  image: string;
+}

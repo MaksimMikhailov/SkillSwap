@@ -37,6 +37,7 @@
   align-items: center;
   text-align: center;
   gap: 4px;
+
 }
 .skill {
   font-family: var(--font-Roboto-Medium);

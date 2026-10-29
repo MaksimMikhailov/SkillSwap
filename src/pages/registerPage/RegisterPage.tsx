@@ -5,25 +5,36 @@ import { RegistrationLayout } from "../../components/ui/registrationLayout";
 import { RegisterStepOneLeft } from "../../components/ui/registerStepOneLeft";
 import { RegisterStepTwoLeft } from "../../components/ui/registerStepTwoLeft";
 import { RegisterStepThreeLeft } from "../../components/ui/registerStepThreeLeft";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import type { Steps } from "../../components/ui/registrationLayout/RegistrationLayout";
 import { RegisterStepRight } from "../../components/ui/registerStepOneRight";
 import LigthBulb from "../../shared/icon/assets/light-bulb.svg";
 import UserInfo from "../../shared/icon/assets/user info.svg";
 import SchoolBoard from "../../shared/icon/assets/school-board.svg";
-import { useState } from "react";
 import type { IInfo } from "../../components/ui/registerStepTwoLeft/RegisterStepTwoLeft";
-import type { ISkill } from "../../components/ui/registerStepThreeLeft/RegisterStepThreeLeft";
+import { useState } from "react";
+import { RegisterModal } from "../../components/modals/registerModal";
+import { useDispatch } from "react-redux";
+import { actionSetAuth } from "../../services/store/slice/authSlice";
 export interface IAuth {
   login: string;
   password: string;
 }
+export interface IInfoUser {
+  title: string;
+  category: string;
+  subCategory: string;
+  description: string;
+  images: string[];
+}
 export const RegisterPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const stateStep = parseStep(searchParams.get("step"));
+  const [skill, setSkill] = useState<IInfoUser | null>(null);
   const [auth, setAuth] = useState<IAuth | null>(null);
   const [info, setInfo] = useState<IInfo | null>(null);
-  const [skill, setSkill] = useState<ISkill | null>(null);
+  const navigate = useNavigate();
   function goToStep(step: Steps) {
     setSearchParams({ step: String(step) });
   }
@@ -35,8 +46,9 @@ export const RegisterPage = () => {
     setInfo(value);
     handleNext();
   }
-  function submitSkill(value: ISkill) {
+  function submitSkill(value: IInfoUser) {
     setSkill(value);
+    setIsModalOpen(true);
   }
   function handleNext() {
     goToStep((stateStep + 1) as Steps);
@@ -51,7 +63,7 @@ export const RegisterPage = () => {
     if (value === "3") return 3;
     return 1;
   }
-
+  const dispatch = useDispatch();
   function getCurrentStep(step: Steps) {
     switch (step) {
       case 1:
@@ -62,7 +74,31 @@ export const RegisterPage = () => {
         );
       case 3:
         return (
-          <RegisterStepThreeLeft onBack={handleBack} onSubmit={submitSkill} />
+          <>
+            <RegisterStepThreeLeft onBack={handleBack} onSubmit={submitSkill} />
+            {isModalOpen && (
+              <RegisterModal
+                setIsModalOpen={setIsModalOpen}
+                submitModal={() => {
+                  if(!auth || !info || !skill) return
+
+                  const objData = {
+                    login: auth.login,
+                    password: auth.password,
+                    image: info.image,
+                    name: info.name,
+                    date: info.date,
+                    description: skill.description,
+                    city: info.city,
+                    gender: info.gender
+                  };
+                  dispatch(actionSetAuth(objData));
+                  navigate("/");
+                }}
+                previewSkill={skill}
+              />
+            )}
+          </>
         );
     }
   }
@@ -98,8 +134,13 @@ export const RegisterPage = () => {
     <>
       <header>
         <div className={styles.container}>
-          <img src={HeaderLogo} alt="" />
-          <button className={styles.headerBtn}>
+          <img
+            src={HeaderLogo}
+            alt=""
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          />
+          <button className={styles.headerBtn} onClick={() => navigate("/")}>
             Закрыть <img src={BtnClose} alt="" />
           </button>
         </div>

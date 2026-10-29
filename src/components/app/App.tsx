@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import { AppHeader } from "../ui/app-header";
 import "./styles/global.css";
 import { routes } from "../../shared/lib/constants";
 import { AuthPage } from "../../pages/authPage";
@@ -21,32 +20,35 @@ import {
   getСity,
 } from "../../services/store/slice/userSlice";
 import { useEffect } from "react";
+import { actionGetAuth } from "../../services/store/slice/authSlice";
+import { ProfilePage } from "../../pages/skillPage";
 
 function App() {
-  // const isAuth = useSelector((store: RootState) => store.auth.IsAuth);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getSkills());
     dispatch(getUsers());
     dispatch(getСity());
     dispatch(getCategory());
+    dispatch(actionGetAuth());
   }, [dispatch]);
-  const isAuth = true;
+  const isAuth = useSelector((state: RootState) => state.auth.IsAuth);
   return (
     <>
       <Routes>
         <Route element={<Container />}>
           <Route element={<ProtectedRoute isAuth={isAuth} />}>
-            <Route path={routes.skill} element={<SkillPage />} />
             <Route path={routes.favorite} element={<FavoritePage />} />
-          </Route>
-          <Route element={<ProtectedRoute isAuth={isAuth} onlyOnAuth />}>
-            <Route path={routes.auth} element={<AuthPage />} />
+            <Route path={routes.profile} element={<ProfilePage />} />
           </Route>
           <Route path={routes.main} element={<MainPage />} />
+          <Route path={routes.skill} element={<SkillPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path={routes.register} element={<RegisterPage />} />
+        <Route element={<ProtectedRoute isAuth={isAuth} onlyOnAuth />}>
+          <Route path={routes.register} element={<RegisterPage />} />
+          <Route path={routes.auth} element={<AuthPage />} />
+        </Route>
       </Routes>
     </>
   );

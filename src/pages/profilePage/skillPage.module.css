@@ -86,7 +86,10 @@
   img:first-child {
     grid-row: span 3;
     height: 100%;
-    object-fit: contain;
+    width: 324px;
+    max-height: 324px;
+    object-fit: cover;
+    border-radius: 12px;
   }
   img:not(:first-child) {
     width: 92px;
