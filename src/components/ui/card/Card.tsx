@@ -12,7 +12,7 @@ export interface IUserInfo {
   age: number;
 }
 
-interface CardProps {
+export interface CardProps {
   userInfo: IUserInfo;
   teachskills: string[];
   learnskills: string[];
@@ -60,12 +60,20 @@ export function Card({
     }
     return 2;
   }
+  function isLikeCurrent() {
+    const localStorageId = localStorage.getItem("like");
+    if (!localStorageId || !id) return false;
+    const parseLocalStorage = JSON.parse(localStorageId) as string[];
+    return parseLocalStorage.includes(id);
+  }
   return (
     <div className={`${styles.card} ${!hasProfile ? styles.cardProfile : ""}`}>
       <UserInfo
         {...userInfo}
         likesCount={likesCount}
         isHeartDisplay={isHeartDisplay}
+        id={id}
+        isFavorite={isLikeCurrent()}
       />
       {description && <p className={styles.description}>{description}</p>}
       <div className={styles.wrapSkills}>

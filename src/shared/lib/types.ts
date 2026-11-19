@@ -11,3 +11,10 @@ export interface User {
   name: string;
   image: string;
 }
+export interface Notifications {
+  date: string;
+  userId: string;
+  type: boolean;
+  text: string;
+  status: "pending" | "reject" | "fulfilled";
+}

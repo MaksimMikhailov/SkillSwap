@@ -1,0 +1,105 @@
+.modalGlobal {
+  position: absolute;
+  z-index: 998;
+  width: 560px;
+  height: 500px;
+  padding: 60px;
+  top: 100px;
+  right: 32px;
+  background-color: #fff;
+  border: 1px solid #69735d;
+  border-radius: 12px;
+}
+.wrapNotification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.wrapNotificationMt {
+  margin-top: 24px;
+}
+.wrapCardNotif {
+  margin-bottom: 12px;
+}
+
+.wrapCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  img {
+    width: 40px;
+    height: 40px;
+  }
+}
+.wrapNotification:nth-child(2) {
+  margin-top: 40px;
+}
+.modalNotificationWrapText {
+  display: flex;
+  gap: 16px;
+}
+.modalTitle {
+  font-family: var(--font-Jost-Medium);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+}
+.modalTitleButton {
+  color: #508826;
+  font-family: var(--font-Roboto-Regular);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+.modalWrap {
+  display: flex;
+  flex-direction: column;
+}
+.modalText {
+  font-size: 16px;
+  line-height: 24px;
+}
+.modalDescription {
+  font-size: 12px;
+  line-height: 16px;
+}
+.modalDate {
+  color: #69735d;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+.modalButtonLink {
+  display: flex;
+  border-radius: 12px;
+  font-size: 16px;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  cursor: pointer;
+  color: #253017;
+  border: none;
+  background: #abd27a;
+  min-width: 92px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+.wrapNotification {
+}
+.modalTitle {
+}
+
+.wrapNotification {
+}
+.modalWrap {
+}
+.modalText {
+}
+.modalDescription {
+}
+.modalDate {
+}

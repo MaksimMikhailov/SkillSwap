@@ -34,7 +34,12 @@ const authSlice = createSlice({
         : null;
       if (state.auth) state.IsAuth = true;
     },
+    actionLogout(state) {
+      localStorage.removeItem("userInfo");
+      state.IsAuth = false;
+      state.auth = null;
+    },
   },
 });
 export default authSlice.reducer;
-export const { actionSetAuth, actionGetAuth } = authSlice.actions;
+export const { actionSetAuth, actionGetAuth, actionLogout } = authSlice.actions;

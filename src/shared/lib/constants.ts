@@ -5,4 +5,5 @@ export const routes = {
   register: "/register",
   profile: "/profile",
   favorite: "/favorite",
+  serverNotFound: "/500",
 };

@@ -8,13 +8,19 @@ import moon from "../../../shared/icon/assets/moon.svg";
 import styles from "./appHeader.module.css";
 import { useState } from "react";
 import { Input } from "../../../shared/ui/input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { routes } from "../../../shared/lib/constants";
 import type { RootState } from "../../../services/store";
+import { actionLogout } from "../../../services/store/slice/authSlice";
+import { NotificationsModal } from "../../modals/notificationsModal";
+import { SkillsModal } from "../../modals/skillsModal";
 export function AppHeader() {
   const isAuth = useSelector((store: RootState) => store.auth.IsAuth);
   const auth = useSelector((store: RootState) => store.auth.auth);
   const [modalProf, setModalProf] = useState(false);
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [modalNotification, setModalNotification] = useState(false);
+  const dispatch = useDispatch();
   console.log(isAuth);
   const [value, setValue] = useState("");
   return (
@@ -24,10 +30,15 @@ export function AppHeader() {
       </Link>
 
       <nav className={styles.nav}>
-        <NavLink to="/">О проекте</NavLink>
-        <div className={styles.wrapNav}>
-          <NavLink to="/">Все навыки</NavLink>
-          <img src={chevronDown}></img>
+        <Link to="/">О проекте</Link>
+        <div
+          className={`${styles.wrapNav} ${buttonStatus ? styles.active : ""}`}
+          onClick={() => {
+            setButtonStatus(!buttonStatus);
+          }}
+        >
+          <button>Все навыки</button>
+          <img src={chevronDown} alt="" />
         </div>
       </nav>
       <Input
@@ -57,12 +68,12 @@ export function AppHeader() {
               <button>
                 <img src={moon} alt="" />
               </button>
-              <button>
+              <button onClick={() => setModalNotification(!modalNotification)}>
                 <img src={notification} alt="" />
               </button>
-              <NavLink to="/">
+              <Link to={`${routes.profile}?tab=favorite`}>
                 <img src={like} alt="" />
-              </NavLink>
+              </Link>
             </div>
             <div
               className={styles.wrapAvatar}
@@ -87,12 +98,15 @@ export function AppHeader() {
                 className={styles.logout}
                 onClick={() => {
                   setModalProf(false);
+                  dispatch(actionLogout());
                 }}
               >
                 Выйти из аккаунта <img src={Logout} alt="" />
               </button>
             </div>
           )}
+          {modalNotification && <NotificationsModal />}
+          {buttonStatus && <SkillsModal />}
         </>
       )}
     </header>

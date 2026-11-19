@@ -98,7 +98,21 @@
     object-fit: cover;
   }
 }
-
+.buttonActive {
+  border: 1px solid #abd27a;
+  background: #fff;
+  font-family: var(--font-Roboto-Regular);
+  display: flex;
+  border-radius: 12px;
+  font-size: 16px;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  cursor: pointer;
+  color: #253017;
+  margin-top: 16px;
+}
 .wrapcards {
   position: relative;
   display: flex;

@@ -22,6 +22,7 @@ import {
 import { useEffect } from "react";
 import { actionGetAuth } from "../../services/store/slice/authSlice";
 import { ProfilePage } from "../../pages/skillPage";
+import { ServerErrorPage } from "../../pages/serverErrorPage";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,6 +44,7 @@ function App() {
           </Route>
           <Route path={routes.main} element={<MainPage />} />
           <Route path={routes.skill} element={<SkillPage />} />
+          <Route path={routes.serverNotFound} element={<ServerErrorPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route element={<ProtectedRoute isAuth={isAuth} onlyOnAuth />}>

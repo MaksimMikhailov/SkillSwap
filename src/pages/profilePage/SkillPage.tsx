@@ -6,33 +6,36 @@ import { Card } from "../../components/ui/card";
 import { Like } from "../../components/ui/like";
 import { useState } from "react";
 import type { IUserInfo } from "../../components/ui/card/Card";
-import type { Skills } from "../../shared/lib/types";
+import type { Notifications, Skills } from "../../shared/lib/types";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import type { RootState } from "../../services/store";
 import type { ISkills } from "../../services/store/slice/skillsSlice";
 import type { ICategory } from "../../services/store/slice/userSlice";
 import { OrderModal } from "../../components/modals/orderModal";
-import done from "../../shared/icon/assets/Done.svg";
 import notification from "../../shared/icon/assets/notificationModals.svg";
 import userCircle from "../../shared/icon/assets/user-circle.svg";
+import clock from "../../shared/icon/assets/clock.svg";
 
 export interface profileData {
   userInfo: IUserInfo;
   teachskills: Skills[];
   learnskills: Skills[];
 }
+
 export const SkillPage = () => {
   const { id } = useParams();
   const { skills, loading } = useSelector((state: RootState) => state.skills);
   const { user, city, category } = useSelector(
     (state: RootState) => state.user,
   );
+  const { auth } = useSelector((state: RootState) => state.auth);
   const skillData = getSkillData();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [count, setCount] = useState(0);
   const [skip, setSkip] = useState(0);
+  const [buttonActive, setButtonActive] = useState(checkActiveButton());
   const [images, setImages] = useState(skillData?.skillsUser.images!);
   const isAuth = useSelector((state: RootState) => state.auth.IsAuth);
   if (loading) return <>loading</>;
@@ -52,7 +55,24 @@ export const SkillPage = () => {
       )
       .map((subcategory) => subcategory.name)
       .filter((name): name is string => Boolean(name));
-
+  function sentNotification() {
+    const newNotification: Notifications = {
+      date: new Date().toISOString(),
+      userId: id!,
+      type: false,
+      text: `${auth?.name} Предлагает вам обмен`!,
+      status: "pending",
+    };
+    try {
+      const notification = JSON.parse(
+        localStorage.getItem("notification")!,
+      ) as Notifications[];
+      notification.push(newNotification);
+      localStorage.setItem("notification", JSON.stringify(notification));
+    } catch (error) {
+      localStorage.setItem("notification", JSON.stringify([newNotification]));
+    }
+  }
   function getSkillData() {
     const skillsUser = skills.find((el) => el.id === id);
     if (!skillsUser) return;
@@ -83,7 +103,16 @@ export const SkillPage = () => {
     }
     return `${skillData.categorySkills.name} / ${skillData.subCategorySkills.name}`;
   }
-
+  function checkActiveButton() {
+    try {
+      const notification = JSON.parse(
+        localStorage.getItem("notification")!,
+      ) as Notifications[];
+      return notification.some((el) => el.userId === id);
+    } catch (error) {
+      return false;
+    }
+  }
   function getCardInfo() {
     if (!skillData) return;
     const teachSkillsCategory = category.find(
@@ -206,14 +235,22 @@ export const SkillPage = () => {
               <h1 className={styles.title}>{skillData?.skillsUser.title}</h1>
               <p className={styles.link}>{categoryCrumb()}</p>
               <p className={styles.text}>{skillData?.skillsUser.description}</p>
-              <button
-                className={styles.button}
-                onClick={() => {
-                  setIsModalOpen(true);
-                }}
-              >
-                Предложить обмен
-              </button>
+              {!buttonActive ? (
+                <button
+                  className={`${styles.button} ${styles.active}`}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    sentNotification();
+                    setButtonActive(true);
+                  }}
+                >
+                  Предложить обмен
+                </button>
+              ) : (
+                <button className={styles.buttonActive}>
+                  <img src={clock} alt="" /> Обмен предложен
+                </button>
+              )}
             </div>
             <div className={styles.wrapper}>
               <button

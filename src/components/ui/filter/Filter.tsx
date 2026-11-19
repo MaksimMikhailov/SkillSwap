@@ -1,84 +1,112 @@
+import { useSelector } from "react-redux";
 import styles from "./filter.module.css";
-
-export function Filter() {
+import type { RootState } from "../../../services/store";
+import chevronDown from "../../../shared/icon/assets/chevron-down.svg";
+import { useState } from "react";
+interface PropsFilters {
+  onChange: (value: FiltersChangeMod) => void;
+  filters: FiltersChangeMod;
+}
+export interface FiltersChangeMod {
+  skillType: string;
+  categoryIds: string[];
+  gender: string;
+  cityIds: string[];
+}
+export function Filter({ onChange, filters }: PropsFilters) {
+  console.log(filters);
+  const category = useSelector((state: RootState) => state.user.category);
+  const visibleCategories = 3;
+  const [visibleCount, setVisibleCount] = useState(visibleCategories);
+  console.log(category);
   return (
     <aside>
       <form className={styles.form}>
         <h1 className={styles.titlesFilters}>Фильтры</h1>
-        <div className={`${styles.radio} ${styles.active}`}>
-          <label htmlFor="all">
-            <input type="radio" value="Всё" id="all" name="skills" />
-            Всё
-          </label>
-
-          <label className={styles.active} htmlFor="learn">
-            <input
-              type="radio"
-              value="Хочу научиться"
-              id="learn"
-              name="skills"
-            />
-            Хочу научиться
-          </label>
-          <label htmlFor="teach">
-            <input type="radio" value="Могу научить" id="teach" name="skills" />
-            Могу научить
-          </label>
+        <div className={`${styles.radio} ${styles.active} `}>
+          {[
+            {
+              value: "Всё",
+              id: "all",
+            },
+            { value: "Хочу научиться", id: "learn" },
+            { value: "Могу научить", id: "teach" },
+          ].map((el) => (
+            <label
+              htmlFor={el.id}
+              key={el.id}
+              className={filters.skillType === el.id ? styles.activeRadio : ""}
+            >
+              <input
+                type="radio"
+                value={el.value}
+                id={el.id}
+                name="skills"
+                onChange={() => {
+                  onChange({ ...filters, skillType: el.id });
+                }}
+              />
+              {el.value}
+            </label>
+          ))}
         </div>
         <div className={styles.checkbox}>
           <h2 className={styles.titles}>Навыки</h2>
-          <label htmlFor="deal">
-            <input type="checkbox" value="Бизнес и карьера" id="deal" />
-            Бизнес и карьера
-          </label>
-
-          <label htmlFor="creation">
-            <input
-              type="checkbox"
-              value="Творчество и искусство"
-              id="creation"
-            />
-            Творчество и искусство
-          </label>
-          <label htmlFor="english">
-            <input type="checkbox" value="Иностранные языки" id="english" />
-            Иностранные языки
-          </label>
-
-          <label htmlFor="learing">
-            <input
-              type="checkbox"
-              value="Образование и развитие"
-              id="learing"
-            />
-            Образование и развитие
-          </label>
-
-          <label htmlFor="heart">
-            <input type="checkbox" value="Здоровье и лайфстайл" id="heart" />
-            Здоровье и лайфстайл
-          </label>
-
-          <label htmlFor="house">
-            <input type="checkbox" value="Дом и уют" id="house" />
-            Дом и уют
-          </label>
+          {category.slice(0, visibleCount).map((el) => (
+            <label
+              htmlFor={el.id}
+              key={el.id}
+              className={filters.skillType === el.id ? styles.activeRadio : ""}
+            >
+              <input
+                type="radio"
+                value={el.name}
+                id={el.id}
+                name="skills"
+                onChange={() => {
+                  onChange({ ...filters, skillType: el.id });
+                }}
+              />
+              {el.name}
+            </label>
+          ))}
+          <button
+            className={styles.moreCategory}
+            onClick={() => {
+              if (visibleCount === 3) setVisibleCount(category.length);
+              else setVisibleCount(3);
+            }}
+          >
+            Все категории <img src={chevronDown} alt="" />
+          </button>
         </div>
         <div className={styles.gender}>
           <h3 className={styles.titles}>Пол автора</h3>
-          <label htmlFor="donthave">
-            <input type="radio" value="Всё" id="donthave" name="gender" />
-            Не имеет значения
-          </label>
-
-          <label htmlFor="man">
-            <input type="radio" value="Хочу научиться" id="man" name="gender" />
-            Мужской
-          </label>
-          <label htmlFor="girl">
-            <input type="radio" value="Могу научить" id="girl" name="gender" />
-            Женский
-          </label>
+          {[
+            {
+              value: "Не имеет значения",
+              id: "none",
+            },
+            { value: "Мужской", id: "man" },
+            { value: "Женский", id: "girl" },
+          ].map((el) => (
+            <label
+              htmlFor={el.id}
+              key={el.id}
+              className={filters.gender === el.id ? styles.activeRadio : ""}
+            >
+              <input
+                type="radio"
+                value={el.value}
+                id={el.id}
+                name="gender"
+                onChange={() => {
+                  onChange({ ...filters, gender: el.id });
+                }}
+              />
+              {el.value}
+            </label>
+          ))}
         </div>
         <div className={styles.city}>
           <h3 className={styles.titles}>Город</h3>

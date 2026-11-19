@@ -8,9 +8,17 @@ import { useSelector } from "react-redux";
 import { type ISkills } from "../../services/store/slice/skillsSlice";
 import type { RootState } from "../../services/store";
 import { type ICategory } from "../../services/store/slice/userSlice";
+import { Cards } from "../../components/cards";
+import type { FiltersChangeMod } from "../../components/ui/filter/Filter";
 export const MainPage = () => {
   const [displayCount, setDisplayCount] = useState(3);
-
+  const [statusCards, setStatusCards] = useState<string | null>(null);
+  const [filters, setFilters] = useState<FiltersChangeMod>({
+    skillType: "all",
+    categoryIds: [],
+    gender: "none",
+    cityIds: [],
+  });
   useEffect(() => {
     let timer: number;
     function handleScroll() {
@@ -80,7 +88,10 @@ export const MainPage = () => {
             city: authorCity ?? "",
           },
           id: skill.id,
-          learnskills: mapSubcategoryNames(author.learnSubcategoryIds, category),
+          learnskills: mapSubcategoryNames(
+            author.learnSubcategoryIds,
+            category,
+          ),
           teachskills: teachSkills ? [teachSkills.name] : [],
           category: mapCategoryNames(author.learnCategoryIds, category),
         };
@@ -90,44 +101,102 @@ export const MainPage = () => {
   if (loading) return <div>loading</div>;
   return (
     <div className={styles.container}>
-      <Filter />
+      <Filter onChange={setFilters} filters={filters} />
       <div className={styles.containerCard}>
-        <div className={styles.headerCards}>
-          <h1 className={styles.title}>Популярное</h1>
-          <button className={styles.button}>
-            Смотреть все <img src={chevronRight} alt="" />
-          </button>
-        </div>
-        <div className={styles.mainCards}>
-          {GetCardsInfo(popularCount())
-            .slice(0, 3)
-            .map((el) => (
-              <Card {...el} isHeartDisplay />
-            ))}
-        </div>
-        <div className={styles.headerCards}>
-          <h1 className={styles.title}>Новое</h1>
-          <button className={styles.button}>
-            Смотреть все <img src={chevronRight} alt="" />
-          </button>
-        </div>
-        <div className={styles.mainCards}>
-          {GetCardsInfo(dateCount())
-            .slice(0, 3)
-            .map((el) => (
-              <Card {...el} isHeartDisplay />
-            ))}
-        </div>
-        <div className={styles.headerCards}>
-          <h1 className={styles.title}>Рекомендуем</h1>
-        </div>
-        <div className={styles.mainCards}>
-          {GetCardsInfo(skills)
-            .slice(0, displayCount)
-            .map((el) => (
-              <Card {...el} isHeartDisplay />
-            ))}
-        </div>
+        {statusCards === "Популярное" ? (
+          <>
+            <div className={styles.wrapTitleBtn}>
+              <h2 className={styles.title}>Популярное</h2>
+              <button
+                className={styles.backMainCard}
+                onClick={() => setStatusCards(null)}
+              >
+                Назад <img src={chevronRight} alt="" />
+              </button>
+            </div>
+            <div className={styles.mainCards}>
+              <Cards listCards={GetCardsInfo(popularCount())} />
+            </div>
+          </>
+        ) : (
+          !statusCards && (
+            <>
+              <div className={styles.headerCards}>
+                <h1 className={styles.title}>Популярное</h1>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    setStatusCards("Популярное");
+                  }}
+                >
+                  Смотреть все <img src={chevronRight} alt="" />
+                </button>
+              </div>
+
+              <div className={styles.mainCards}>
+                {GetCardsInfo(popularCount())
+                  .slice(0, 3)
+                  .map((el) => (
+                    <Card {...el} isHeartDisplay />
+                  ))}
+              </div>
+            </>
+          )
+        )}
+        {statusCards === "Новое" ? (
+          <>
+            <div className={styles.wrapTitleBtn}>
+              <h2 className={styles.title}>Новое</h2>
+              <button
+                className={styles.backMainCard}
+                onClick={() => setStatusCards(null)}
+              >
+                Назад
+              </button>
+            </div>
+            <div className={styles.mainCards}>
+              <Cards listCards={GetCardsInfo(dateCount())} />
+            </div>
+          </>
+        ) : (
+          !statusCards && (
+            <>
+              <div className={styles.headerCards}>
+                <h1 className={styles.title}>Новое</h1>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    if (statusCards === "Новое") setStatusCards(null);
+                    setStatusCards("Новое");
+                  }}
+                >
+                  Смотреть все <img src={chevronRight} alt="" />
+                </button>
+              </div>
+              <div className={styles.mainCards}>
+                {GetCardsInfo(dateCount())
+                  .slice(0, 3)
+                  .map((el) => (
+                    <Card {...el} isHeartDisplay />
+                  ))}
+              </div>
+            </>
+          )
+        )}
+        {!statusCards && (
+          <>
+            <div className={styles.headerCards}>
+              <h1 className={styles.title}>Рекомендуем</h1>
+            </div>
+            <div className={styles.mainCards}>
+              {GetCardsInfo(skills)
+                .slice(0, displayCount)
+                .map((el) => (
+                  <Card {...el} isHeartDisplay />
+                ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

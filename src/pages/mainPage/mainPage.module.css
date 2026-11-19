@@ -54,3 +54,28 @@
   gap: 23px;
   flex-wrap: wrap;
 }
+.backMainCard {
+  font-family: var(--font-Roboto-Regular);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  letter-spacing: 0.02em;
+  color: #253017;
+  gap: 16px;
+  border-radius: 12px;
+  padding: 12px 24px;
+  background-color: #fff;
+  img {
+    width: 8px;
+    height: 16px;
+    rotate: 180deg;
+  }
+}
+.wrapTitleBtn {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}

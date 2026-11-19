@@ -65,6 +65,10 @@
 
 .wrapNav {
   gap: 4px;
+  img {
+    cursor: pointer;
+    user-select: none;
+  }
 }
 .wrapAvatar {
   display: flex;
@@ -81,6 +85,7 @@
 }
 .modal {
   position: absolute;
+  z-index: 999;
   right: 36px;
   top: 104px;
   border: 1px solid #b2b9a9;
@@ -112,4 +117,10 @@
   color: var(--text);
   display: flex;
   gap: 8px;
+}
+.active {
+  img {
+    rotate: 180deg;
+    user-select: none;
+  }
 }
