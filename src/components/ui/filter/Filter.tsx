@@ -14,11 +14,18 @@ export interface FiltersChangeMod {
   cityIds: string[];
 }
 export function Filter({ onChange, filters }: PropsFilters) {
+  const { category, city } = useSelector((state: RootState) => state.user);
+
+  const [visibleCount, setVisibleCount] = useState({
+    categories: 3,
+    city: 5,
+  });
+  const [switchBtn, setSwitchBtn] = useState({
+    categories: false,
+    city: false,
+  });
+
   console.log(filters);
-  const category = useSelector((state: RootState) => state.user.category);
-  const visibleCategories = 3;
-  const [visibleCount, setVisibleCount] = useState(visibleCategories);
-  console.log(category);
   return (
     <aside>
       <form className={styles.form}>
@@ -52,11 +59,13 @@ export function Filter({ onChange, filters }: PropsFilters) {
         </div>
         <div className={styles.checkbox}>
           <h2 className={styles.titles}>Навыки</h2>
-          {category.slice(0, visibleCount).map((el) => (
+          {category.slice(0, visibleCount.categories).map((el) => (
             <label
               htmlFor={el.id}
               key={el.id}
-              className={filters.skillType === el.id ? styles.activeRadio : ""}
+              className={
+                filters.categoryIds.includes(el.id) ? styles.activeCheckBox : ""
+              }
             >
               <input
                 type="radio"
@@ -64,17 +73,34 @@ export function Filter({ onChange, filters }: PropsFilters) {
                 id={el.id}
                 name="skills"
                 onChange={() => {
-                  onChange({ ...filters, skillType: el.id });
+                  let result;
+                  if (filters.categoryIds.includes(el.id)) {
+                    result = filters.categoryIds.filter((id) => id !== el.id);
+                  } else {
+                    result = [...filters.categoryIds];
+                    result.push(el.id);
+                  }
+                  onChange({ ...filters, categoryIds: result });
                 }}
               />
               {el.name}
             </label>
           ))}
           <button
-            className={styles.moreCategory}
-            onClick={() => {
-              if (visibleCount === 3) setVisibleCount(category.length);
-              else setVisibleCount(3);
+            className={`${styles.moreCategory} ${switchBtn.categories ? styles.active : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              if (visibleCount.categories === 3)
+                setVisibleCount({
+                  ...visibleCount,
+                  categories: category.length,
+                });
+              else
+                setVisibleCount({
+                  ...visibleCount,
+                  categories: 3,
+                });
+              setSwitchBtn({ ...switchBtn, categories: !switchBtn.categories });
             }}
           >
             Все категории <img src={chevronDown} alt="" />
@@ -110,10 +136,52 @@ export function Filter({ onChange, filters }: PropsFilters) {
         </div>
         <div className={styles.city}>
           <h3 className={styles.titles}>Город</h3>
-          <label htmlFor="house">
-            <input type="checkbox" value="Москва" id="house" />
-            Москва
-          </label>
+          {city.slice(0, visibleCount.city).map((el) => (
+            <>
+              <label
+                htmlFor={el.id}
+                key={el.id}
+                className={
+                  filters.cityIds.includes(el.id) ? styles.activeCheckBox : ""
+                }
+                onChange={() => {
+                  let result;
+                  if (filters.cityIds.includes(el.id)) {
+                    result = filters.cityIds.filter((id) => id !== el.id);
+                  } else {
+                    result = [...filters.cityIds];
+                    result.push(el.id);
+                  }
+                  onChange({ ...filters, cityIds: result });
+                }}
+              >
+                <input type="checkbox" value={el.name} id={el.id} />
+                {el.name}
+              </label>
+            </>
+          ))}
+          <button
+            className={`${styles.moreCategory} ${switchBtn.city ? styles.active : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              if (visibleCount.city === 5)
+                setVisibleCount({
+                  ...visibleCount,
+                  city: city.length,
+                });
+              else
+                setVisibleCount({
+                  ...visibleCount,
+                  city: 5,
+                });
+              setSwitchBtn({
+                ...switchBtn,
+                city: !switchBtn.city,
+              });
+            }}
+          >
+            Все города <img src={chevronDown} alt="" />
+          </button>
         </div>
       </form>
     </aside>

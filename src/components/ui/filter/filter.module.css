@@ -68,7 +68,7 @@
   left: -24.1px;
 }
 
-.activeCheckBox label::before {
+.activeCheckBox::before {
   content: "";
   position: absolute;
   width: 24px;
@@ -77,7 +77,7 @@
   border-radius: 8px;
   border: 1px solid #508826;
 }
-.activeCheckBox label::after {
+.activeCheckBox::after {
   content: "";
   position: absolute;
   background-color: #508826;
@@ -114,4 +114,9 @@
   color: #508826;
   display: flex;
   gap: 4px;
+}
+.active {
+  img {
+    rotate: 180deg;
+  }
 }
